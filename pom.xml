@@ -1,0 +1,348 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  	<modelVersion>4.0.0</modelVersion>
+  	<groupId>com.xuyuan</groupId>
+  	<artifactId>start_j2ee</artifactId>
+	<packaging>war</packaging>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<name>start_j2ee Maven Webapp</name>
+  	<url>http://maven.apache.org</url>
+  	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jetty6.version>6.1.26</jetty6.version>
+		
+		<struts2.version>2.2.3.1</struts2.version>
+		<lucene3.version>3.0.3</lucene3.version>
+		<quartz1.version>1.5.2</quartz1.version>
+		<hibernate3.version>3.6.8.Final</hibernate3.version>
+		<spring3.version>3.1.0.RELEASE</spring3.version>
+		<aspectj.version>1.6.10</aspectj.version>
+		<ibatis2.version>2.3.4.726</ibatis2.version>
+	</properties>
+  	<build>
+    	<finalName>start_j2ee</finalName>
+	    <pluginManagement>
+	    	<plugins>
+		    	<plugin>
+		            <groupId>org.apache.maven.plugins</groupId>
+		            <artifactId>maven-compiler-plugin</artifactId>
+		            <configuration>
+		                <source>1.6</source>
+		                <target>1.6</target>
+		            </configuration>
+		        </plugin>
+	    		<plugin>
+	    			<groupId>org.mortbay.jetty</groupId>
+	    			<artifactId>maven-jetty-plugin</artifactId>
+	    			<version>${jetty6.version}</version>
+	    			<configuration>
+				         <webDefaultXml>src/main/resources/webdefault.xml</webDefaultXml>
+				  	</configuration>
+	    		</plugin>
+	    		<plugin>  
+		            <groupId>org.apache.maven.plugins</groupId>  
+		            <artifactId>maven-resources-plugin</artifactId>  
+		            <configuration>  
+		                <encoding>UTF-8</encoding>  
+		            </configuration>  
+		        </plugin> 
+		        <plugin>  
+		            <groupId>org.apache.maven.plugins</groupId>  
+		            <artifactId>maven-war-plugin</artifactId>  
+		            <configuration>  
+		                <warName>webapp</warName>  
+		            </configuration>  
+		        </plugin>
+	    	</plugins>
+	    </pluginManagement>
+  	</build>
+  	<dependencies>
+  		<!-- Test -->
+    	<dependency>
+	      	<groupId>junit</groupId>
+	      	<artifactId>junit</artifactId>
+	      	<version>4.7</version>
+	      	<scope>test</scope>
+    	</dependency>
+    	
+    	<!-- Log -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+		
+		<!-- Servlet -->
+		<dependency>  
+            <groupId>javax.servlet</groupId>  
+            <artifactId>servlet-api</artifactId>  
+            <version>2.5</version>  
+            <scope>provided</scope>  
+        </dependency>  
+        <dependency>  
+            <groupId>javax.servlet.jsp</groupId>  
+            <artifactId>jsp-api</artifactId>  
+            <version>2.1</version>  
+            <scope>provided</scope>  
+        </dependency>
+        
+        <!-- JSTL -->  
+        <dependency>  
+            <groupId>javax.servlet</groupId>  
+            <artifactId>jstl</artifactId>  
+            <version>1.2</version>  
+        </dependency>
+		<dependency> 
+		    <groupId>taglibs</groupId> 
+		    <artifactId>standard</artifactId> 
+			<version>1.1.2</version>
+		</dependency>
+		
+		<!-- DB -->
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.14</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		
+		<!-- Util -->
+		<dependency>  
+			<groupId>net.sf.json-lib</groupId>  
+			<artifactId>json-lib</artifactId>  
+			<version>2.4</version>  
+			<classifier>jdk15</classifier>  
+		</dependency>
+		<dependency>
+			<groupId>jsptags</groupId>
+			<artifactId>pager-taglib</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+	      	<groupId>displaytag</groupId>
+	      	<artifactId>displaytag</artifactId>
+	      	<version>1.2</version>
+	    </dependency>
+	    <dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>2.0.9</version>
+		</dependency>
+        <dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+               
+            
+        <dependency>
+			<groupId>org.apache.ibatis</groupId>
+			<artifactId>ibatis-sqlmap</artifactId>
+			<version>${ibatis2.version}</version>
+		</dependency>
+		
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.2</version>
+        </dependency>
+        
+    	<!-- Struts2 -->
+    	<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-core</artifactId>
+			<version>${struts2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-spring-plugin</artifactId>
+			<version>${struts2.version}</version>
+			<exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+            </exclusions>
+		</dependency>
+		<dependency>
+		  	<groupId>org.apache.struts</groupId>
+		  	<artifactId>struts2-convention-plugin</artifactId>
+		  	<version>${struts2.version}</version>
+		</dependency>
+		<dependency>
+	       	<groupId>org.apache.struts</groupId>
+	       	<artifactId>struts2-json-plugin</artifactId>
+	       	<version>${struts2.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.0.GA</version>
+		</dependency>
+		
+    	<!-- Hibernate3 for JPA: ssj/ssh -->
+    	<dependency>  
+            <groupId>org.hibernate</groupId>  
+            <artifactId>hibernate-entitymanager</artifactId>  
+            <version>${hibernate3.version}</version>  
+            <!-- 
+            <exclusions>
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                </exclusion>
+            </exclusions>
+            -->
+        </dependency>
+		  
+		<!-- Hibernate3: ssh -->
+    	<dependency>
+	      	<groupId>org.hibernate</groupId>
+	      	<artifactId>hibernate-core</artifactId>
+	      	<version>${hibernate3.version}</version>
+	    </dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		
+		<!-- Spring3 -->
+		<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-core</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-beans</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-context</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-aop</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-tx</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-web</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-jdbc</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-orm</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-webmvc</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework</groupId>
+	  		<artifactId>spring-test</artifactId>
+	  		<version>${spring3.version}</version>
+	  	</dependency>
+    
+    	<!-- AOP -->
+	    <dependency>
+	  		<groupId>org.aspectj</groupId>
+	  		<artifactId>aspectjrt</artifactId>
+	  		<version>${aspectj.version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.aspectj</groupId>
+	  		<artifactId>aspectjweaver</artifactId>
+	  		<version>${aspectj.version}</version>
+	  	</dependency>
+		
+		<!-- Lucene3 -->
+	    <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${lucene3.version}</version>
+        </dependency>
+       	<dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers</artifactId>
+            <version>${lucene3.version}</version>
+        </dependency>
+		<dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-highlighter</artifactId>
+            <version>${lucene3.version}</version>
+        </dependency>
+		<dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-memory</artifactId>
+            <version>${lucene3.version}</version>
+        </dependency>
+
+        <!-- Quartz1 -->
+        <dependency>
+		    <groupId>quartz</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>${quartz1.version}</version>
+		</dependency>
+		<!--
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>1.8.5</version>
+		</dependency>
+		-->
+  	</dependencies>
+</project>
