@@ -1,0 +1,1 @@
+package com.xuyuan.ssi.dao;import com.xuyuan.ssi.model.User;public interface UserDao {	 public User selectByUserId(Long userid);	 public User selectByUserName(String username);	 public int deleteByUserId(Long userid);}

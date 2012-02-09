@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<users name="ffcssom">
+	<any></any>
+	<test>
+		you're testor...
+	</test>
+	<admin>
+		<id>0000</id>
+		<name>admin:jemy</name>
+	</admin>
+	<config name="config" owner="admin">
+	</config>
+	<user>
+		<id>0001</id>
+		<name>user1:lily</name>
+	</user>
+	<user>
+		<id>0002</id>
+		<name>user2:mary</name>
+	</user>
+</users>

@@ -1,0 +1,1 @@
+package com.xuyuan.test.java;public class BitCondition {	public static void main(String[] args) {		int code = 13; //4,8		if((code & 4) != 0){			System.out.println("---");		}else if((code & 12) != 0){			System.out.println("***");		}else{			System.out.println("+++");		}	}}
