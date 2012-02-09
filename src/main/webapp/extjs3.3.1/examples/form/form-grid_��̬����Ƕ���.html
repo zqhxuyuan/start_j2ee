@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Form with embedded Grid</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css"/>
+	<link rel="stylesheet" type="text/css" href="../shared/examples.css"/>
+	
+    <script type="text/javascript" src="../../adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../ext-all-debug.js"></script>
+
+    <script type="text/javascript" src="form-grid.js"></script>
+    <link rel="stylesheet" type="text/css" href="forms.css"/>
+    <script type="text/javascript" src="../shared/examples.js"></script>
+
+    <style type="text/css">
+        p {
+            width: 750px;
+        }
+        .ext-ie .x-form-check-wrap, .ext-gecko .x-form-check-wrap {
+            padding-top: 3px;
+        }
+        fieldset legend {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<h1>Dynamic Form interacting with an embedded Grid动态表单内嵌Grid</h1>
+<p>
+    This Form demonstrates the fact that by virtue of inheriting from the Ext <b><tt>Container</tt></b>
+    class, an Ext.form.FormPanel can contain any Ext <b><tt>Component</tt></b>. This includes all the subclasses of Ext.Panel, including the GridPanel.
+    <br>这个表单演示了继承Ext的Container类的优点.Ext.form.FormPanel(就是继承了Container类)可以放入任何的Ext组件.包括Ext.Panel的任何子类,比如这里用到的GridPanel(左边数据列表).当然也包括用到的Form(右边表单).
+</p>
+<p>
+    The Grid demonstrates the use of creation of derived fields in a Record created using a custom <b><tt>convert</tt></b> function, and the use of column renderers.
+    <br>此Grid演示了由Record使用convert函数创建派生字段.(实例中myData并没有列信息,但是在reader中创建了列).
+    <br>并使用了renderer来对列信息数据进行展现.(在创建Ext.grid.ColumnModel时,通过前面reader定义的列(字段)进行和Grid进行关联)
+</p>
+<p>
+    The Form demonstrates the use of radio buttons grouped by name being set by the value of the derived 'rating' field.
+</p>
+</body>
+</html>

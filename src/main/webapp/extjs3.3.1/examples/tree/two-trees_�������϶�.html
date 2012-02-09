@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Drag and Drop between 2 TreePanels</title>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<script type="text/javascript" src="../../adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="../../ext-all.js"></script>
+    
+<script type="text/javascript" src="two-trees.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../shared/examples.css" />
+<style type="text/css">
+    #tree, #tree2 {
+    	float:left;
+    	margin:20px;
+    	border:1px solid #c3daf9;
+    	overflow:auto;
+    }
+    .folder .x-tree-node-icon{
+		background:transparent url(../../resources/images/default/tree/folder.gif);
+	}
+	.x-tree-node-expanded .x-tree-node-icon{
+		background:transparent url(../../resources/images/default/tree/folder-open.gif);
+	}
+    </style>
+</head>
+<body>
+<script type="text/javascript" src="../shared/examples.js"></script>
+<h1>Drag and Drop betweens two TreePanels</h1>
+<p>The TreePanels have a TreeSorter applied in "folderSort" mode.
+<br>Tree.tree.TreeSorter可以以folderSort的模式运用在TreePanel上.code:new Tree.TreeSorter(tree, {folderSort: true});
+</p>
+<p>Both TreePanels are in "appendOnly" drop mode since they are sorted.
+<br>当一棵树的节点被放置到另一颗树上时,drop mode是appendOnly.
+</p>
+<p>Drag along the edge of the tree to trigger auto scrolling while performing a drag and drop.</p>
+<p>The data for this tree is asynchronously loaded with a JSON TreeLoader.</p>
+<p>The js is not minified so it is readable. See <a href="two-trees.js">two-trees.js</a>.</p>
+
+<div id="tree"></div>
+<div id="tree2"></div>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+<%@ page language="java" contentType="text/html; charset=UTF8" %><%	out.print("{success:true, file:'test.txt'}");%>
