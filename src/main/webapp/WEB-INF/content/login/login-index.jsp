@@ -27,9 +27,10 @@
 					<h4><a target="main" href="${ctx}/base/beautiful.action">Beautiful Code</a></h4>
 				</div>
 				<div>
-					<h4><a target="main" href="${ctx}/extjs3">Ext Example</a></h4>
+					<h4><a target="main" href="${ctx}/extjs3.3.1">Example</a>
+					<a target="main" href="${ctx}/extjs3">ExtJS</a></h4>
 				</div>
-				
+
 				<div>
 					<h4><a target="main" href="${ctx}/memPagerUser.action">pagertaglib内存</a>
 					<a target="main" href="${ctx}/dbPagerUser.action">DB1</a>
