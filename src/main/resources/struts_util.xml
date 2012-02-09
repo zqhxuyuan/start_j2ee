@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	
+	<package name="utilSample" extends="struts-default">
+		<!-- Lucene -->
+		<action name="articleSearch" class="com.xuyuan.lucene3.db.action.ArticleAction">
+			<result name="success">/lucene/lucene-result.jsp</result>
+		</action>
+
+	</package>
+	
+	<package name="json" namespace="/json" extends="struts-default" >  
+		<!-- 或者注释以下内容,采用extends=json-default -->
+        <result-types>  
+            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>  
+        </result-types>  
+        <interceptors>  
+            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>  
+        </interceptors>  
+        
+        <action name="jsonExample1" class="jsonExample1">  
+            <result type="json"/>  
+        </action>
+        <action name="getMyUserList" class="jsonExample1" method="getMyUserList">  
+            <result type="json">  
+                <param name="root">userList</param>  
+            </result>  
+        </action>  
+        <action name="getMyUserMap" class="jsonExample1" method="getMyUserMap">  
+            <result type="json">  
+            	<param name="root">userMap</param>  
+            </result>  
+        </action>
+    </package>  
+
+	<!-- Book CRUD & Page DEMO  -->    
+    <package name="pager" extends="struts-default" >
+    	<result-types>
+			<result-type name="freemarker" class="org.apache.struts2.views.freemarker.FreemarkerResult" default="true" />
+		</result-types>
+		
+    	<!-- pager-taglib -->
+		<action name="memPagerUser" class="pagerUserAction" method="memPage">
+			<result name="success">/pager-taglib/pagerUser_mem.jsp</result>
+		</action>
+		<action name="dbPagerUser" class="pagerUserAction" method="dbPage">
+			<result name="success">/pager-taglib/pagerUser_db1.jsp</result>
+		</action>
+		<action name="pagerUser" class="pagerUserAction">
+			<result name="success">/pager-taglib/pagerUser_db.jsp</result>
+		</action>
+		
+		<!-- 分页1:带查询条件 -->
+		<action name="booklist" class="booksAction" method="list">
+			<result name="success">/pager/booklist.jsp</result>
+		</action>
+		<action name="bookdelete" class="booksAction" method="delete">
+			<result type="redirect">booklist.action?queryMap=${queryMap}</result>
+		</action>
+		<action name="bookedit" class="booksAction" method="load">
+			 <result>/pager/bookedit.jsp</result>
+		</action>
+		<action name="booksave" class="booksAction" method="save">
+			<result name="input">/pager/bookedit.jsp</result>
+            <result type="redirect">booklist.action?queryMap=${queryMap}</result>
+		</action>
+		
+		<!-- 分页2:不带查询条件 -->
+		<action name="bookpage" class="bookpage">
+			<result name="success">/pager/bookpage.jsp</result>
+		</action>
+		
+		<!-- 分页3:采用FreeMarker -->
+		<action name="book_*" class="bookPageAction" method="{1}">
+			<result name="list">/pager/book_list.ftl</result>
+		</action>
+		
+		<action name="bookBase" class="bookBaseAction">
+			<result name="success">/pager/book_list.jsp</result>
+		</action>
+	</package>
+	
+	<package name="chart" extends="struts-default">
+		<action name="fusionchart" class="fusionChartAction" method="chart">
+			<result name="chart">/chart/fusionchart.jsp</result>  
+		</action> 
+	</package>
+	
+</struts>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Quartz1+Spring简单集成 -->
+	<!-- 采用MethodInvokingJobDetailFactoryBean,方法调用的JobDetailBean.适用于简单的任务. 
+	调度器Scheduler:	由一系列的触发器构成
+	触发器Trigger:	任务实例+任务表达式
+	任务实例JobDetailBean:
+	
+	任务实例:JobDetailBean.实现类要继承QuartzJobBean类
+	 	实现类Service如果依赖Dao层,可以在map标签里放入多个Dao;或者放入成员变量 
+	    <property name="jobDataAsMap">
+	      	<map>
+	        	<entry key="someUsefulDao" value-ref="someUsefulDao"/>
+	        	<entry key="message">   
+                    <value>This is a message from Spring Quartz configuration!</value>   
+                </entry>
+	      	</map>
+	    </property>
+	    
+	任务实例:MethodInvokingJobDetailFactoryBean,不必实现相关类
+	-->
+	<bean id="schedulerTrigger" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTrigger1" />
+				<!-- 
+				<ref bean="cronTrigger_1" />
+				<ref bean="cronTrigger_2" />
+				 -->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="simpleTrigger1" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="jobDetai1"/>   
+		<!-- 在服务器启动好10秒(延迟)后启动,相当于设置了开始时间.当然也可以指定某个时间点启动 -->
+        <property name="startDelay" value="10000"/>		
+        <!-- 不设置重复次数,报错:org.quartz.SchedulerException: Repeat Interval cannot be zero.  -->
+        <!-- repeatCount=1,执行2次,每次间隔1000ms. (重复次数>0,间隔也必须>0) -->
+        <!-- 
+        <property name="repeatInterval" value="10000"/>   
+        <property name="repeatCount" value="1"/>
+        -->   	
+        <!-- 重复次数=0,间隔=0,只执行一次 -->
+        <property name="repeatInterval" value="0"/>   
+        <property name="repeatCount" value="0"/>
+    </bean> 
+    <bean id="jobDetai1" class="org.springframework.scheduling.quartz.JobDetailBean">   
+        <property name="jobClass" value="com.xuyuan.quartz.spring.SimpleJobDetail"/>   
+    </bean>    
+    
+	<bean id="cronTrigger_1" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetail_1" />
+		<property name="cronExpression" value="0/60 * * ? * * *" />
+	</bean>
+	<bean name="jobDetail_1" class="org.springframework.scheduling.quartz.JobDetailBean">
+	    <property name="jobClass" value="com.xuyuan.quartz.spring.SimpleJobDetail"/>
+	</bean>
+	
+	<bean id="cronTrigger_2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	    <property name="jobDetail" ref="jobDetail_2" />
+	    <property name="cronExpression" value="0/30 * * ? * * *" />
+	</bean>
+	<bean name="jobDetail_2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="simpleService" />
+		<property name="targetMethod" value="test" />
+	</bean>
+	<bean id="simpleService" class="com.xuyuan.quartz.spring.SimpleService" />
+
+
+</beans>

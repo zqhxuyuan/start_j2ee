@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	
+    <package name="ssj" extends="struts-default" >  
+		<action name="ssj">
+			<result>/ssj/index.jsp</result>
+		</action>
+	   	<action name="*Emp" class="com.xuyuan.ssj.action.EmpAction" method="{1}">
+			<result name="success">/ssj/emp-list.jsp</result>
+			<result name="input">/ssj/emp-input.jsp</result>
+			<result name="edit">/ssj/emp-edit.jsp</result>
+			<result name="form">/ssj/emp-form.jsp</result>
+		</action>
+    </package> 
+    
+</struts>

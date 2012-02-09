@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/jdbc
+            http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Struts2+Spring -->
+	<!-- if ActionSupport DI by Spring,in struts.xml,action's class refere here's id's value -->
+	<bean id="editService" class="com.xuyuan.struts2.formtags.service.EditServiceInMemory" />
+	<bean id="editAction" class="com.xuyuan.struts2.formtags.action.EditAction" >
+		<property name="editService" ref="editService" />
+	</bean>
+
+	<bean id="personService" class="com.xuyuan.struts2.wildcard.service.PersonService" />
+
+	<!-- Struts2 + Lucene3 -->
+	<bean id="articleDao" class="com.xuyuan.lucene3.db.dao.ArticleDao" />
+	<bean id="articleIndexDao" class="com.xuyuan.lucene3.db.dao.ArticleIndexDao" />
+	<bean id="articleService" class="com.xuyuan.lucene3.db.service.ArticleService">
+		<property name="articleDao" ref="articleDao"/>
+		<property name="articleIndexDao" ref="articleIndexDao"/>
+	</bean>
+	
+	<!-- Struts2+JSON -->
+	<bean id="jsonExample1" class="com.xuyuan.struts2.json.action.JSONExampleAction" scope="prototype"/>
+
+	
+	<!-- 日志切面类,该切面类上定义了@Aspect,每个定义了@Aspect的切面类如果想要进行AOP切入,都需要在这里定义bean.如果业务需求不需要AOP,则注释该代码即可 -->
+	<!-- 
+	<bean class="com.xuyuan.ssh.common.aop.LogAspect" />
+	<bean id="concurrentOperationExecutor" class="com.xuyuan.spring3.aop.ConcurrentOperationExecutor">
+		<property name="maxRetries" value="3"/>
+	    <property name="order" value="100"/>  
+	</bean>
+	 -->
+</beans>

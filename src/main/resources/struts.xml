@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.objectFactory.spring.autoWire.alwaysRespect" value="true" />
+	
+	<package name="basicstruts2" extends="struts-default">
+		<!-- Interceptor stack -->
+		<!--
+		<interceptors>
+	 		<interceptor-stack name="appDefault">
+	   			<interceptor-ref name="defaultStack">
+	      			<param name="exception.logEnabled">true</param>
+	      			<param name="exception.logLevel">ERROR</param>
+	   			</interceptor-ref>
+	 	    </interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="appDefault" />
+ 		-->
+
+		<action name="struts2index">
+			<result>/struts2/index.jsp</result>
+		</action>
+ 
+		<!-- HelloWorld -->
+		<action name="hello" class="com.xuyuan.struts2.helloworld.action.HelloWorldAction" method="execute">
+    		<result name="success">/struts2/HelloWorld.jsp</result>
+  		</action>
+
+		<!-- Form Process,if validate fail,register again -->
+		<action name="registerInput" class="com.xuyuan.struts2.form.action.Register" method="input" >
+			<result name="input">/struts2/register.jsp</result>
+		</action>
+  		<action name="register" class="com.xuyuan.struts2.form.action.Register" method="execute">
+		  	<result name="success">/struts2/thankyou.jsp</result>
+		  	<result name="input">/struts2/register.jsp</result>
+		</action>
+
+		<!-- Form tags -->
+		<!--
+		<action name="edit" class="com.xuyuan.struts2.formtags.action.EditAction" method="input">
+	    	<result name="input">/struts2/edit.jsp</result>
+	    </action>
+	    <action name="save" class="com.xuyuan.struts2.formtags.action.EditAction" method="execute">
+	    	<result name="success">/struts2/thankyou.jsp</result>
+	    	<result name="input">/struts2/edit.jsp</result>
+	    </action>
+ 		-->
+
+	    <!-- Action instantiation DI by spring -->
+	    <action name="edit" class="editAction" method="input">
+	    	<result name="input">/struts2/edit.jsp</result>
+	    </action>
+	    <action name="save" class="editAction" method="execute">
+	    	<result name="success">/struts2/thankyou.jsp</result>
+	    	<result name="input">/struts2/edit.jsp</result>
+	    </action>
+
+		<!-- Wildcard Method -->
+	   	<action name="*Person" class="com.xuyuan.struts2.wildcard.action.PersonAction" method="{1}">
+			<result name="success">/struts2/person-list.jsp</result>
+			<result name="input">/struts2/person-input.jsp</result>
+		</action>
+
+		<!-- Interceptors -->
+		<action name="logger" class="com.xuyuan.struts2.interceptors.action.LoggerAction">
+			<interceptor-ref name="logger" />
+		</action>
+
+		<!-- ModelDriven -->
+		<action name="*User" method="{1}" class="com.xuyuan.struts2.modeldriven.action.UserAction">
+			<result name="input">/struts2/user-input.jsp</result>
+			<result name="success">/struts2/user-view.jsp</result>
+		</action>
+
+		<!-- FileUpload -->
+		<action name="fileUpload" class="com.xuyuan.struts2.fileupload.action.FileUploadAction">
+			<interceptor-ref name="fileUploadStack"/>
+			<result name="success">/struts2/fileupload-success.jsp</result>
+		</action>
+
+	</package>
+
+	<include file="struts_ssh.xml"></include>	
+	<include file="struts_ssj.xml"></include>	
+	<include file="struts_util.xml"></include>	
+	<include file="struts_ext.xml"></include>	
+</struts>
