@@ -1,0 +1,1 @@
+package com.xuyuan.pager_generic.service;import java.util.List;import com.xuyuan.pager.entity.Books;import com.xuyuan.pager_generic.BaseDao;public interface IBookManager extends BaseDao<Books>{	public abstract List<Books> findByName(String value);}

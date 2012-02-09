@@ -1,0 +1,1 @@
+package com.xuyuan.quartz.spring;import java.util.Date;/** * Spring和Quartz集成的简单例子 * 该例中没有成员变量. 如果Service依赖Dao等实现. * 不能使用: MethodInvokingJobDetailFactoryBean * @author Administrator * */public class SimpleService {	public void test(){		System.out.println(new Date() + "SimpleServcie task run.......");	}}
