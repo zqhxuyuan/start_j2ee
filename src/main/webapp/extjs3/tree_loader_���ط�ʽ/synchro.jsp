@@ -1,0 +1,1 @@
+<%@ page language="java" contentType="text/html; charset=UTF8" %><% out.println("[{text: '1节点', id: '2',children: [{text: '1_1子叶',id: 'node1_1',children:[{text: '1_1子叶', leaf: true,id: 'node1_12'}]},{text: '1_2子叶', leaf: true,id: 'node1_2'}   ] },{text: '2子叶', leaf: true, id: 'node2'}]");%>

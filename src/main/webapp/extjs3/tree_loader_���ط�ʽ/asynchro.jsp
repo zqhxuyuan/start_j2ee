@@ -1,0 +1,1 @@
+<%@ page language="java" contentType="text/html; charset=UTF8" %><%String id= request.getParameter("id");if(id.equals("1")){ 	out.println("[{text: '1节点',  id: '2'},{text: '2子叶', leaf: true, id: 'node2'}]");}else if(id.equals("2")){ 	out.println("[{text: '1_1子叶', leaf: true,id: 'node1_1'}]");}%>
