@@ -1,0 +1,123 @@
+----------------------------------------------------------------REF
+http://struts.apache.org/2.x/docs/getting-started.html
+http://code.google.com/p/struts2-examples/downloads/list
+①MavenPlugin> 
+  http://www.blogjava.net/bolo/archive/2011/05/23/349655.html
+②ModelDriven> 
+  http://www.vaannila.com/struts-2/struts-2-tutorial/struts-2-tutorial.html
+③File Upload> 
+  http://www.blogjava.net/max/archive/2007/03/21/105124.html
+④JSONPlugin>
+  http://struts.apache.org/2.x/docs/json-plugin.html 
+  http://unmi.cc/struts2-json-plugin-guide
+  http://blog.csdn.net/kongxx/article/details/5772837
+
+THIS IS SOURCE CODE REORGANIZE OF STRUTS2 OFFICAL TUTORIAL EXAMPLE,
+WRITTEN BY MAVEN3.[zqhxuyuan@gmail.com]
+
+----------------------------------------------------------------BEGIN
+0.How To Create A Struts 2 Web Application with Maven
+--HOW TO RUN THIS PROJECT?
+  0.1 install maven3 and m2eclipse ①
+  0.2 new maven-webapp project
+  0.3 jetty:run
+  0.4 http://localhost:8080/start_j2ee/  			[通过web.xml的welcome-file来转到] 
+  or  http://localhost:8080/start_j2ee/index.jsp  	[直接访问webapp下的index.jsp]
+
+--ADD STRUTS2 SUPPORT
+  0.5 add struts2 dependency support in pom.xml
+  0.6 add struts2 fileter to web.xml
+  0.7 add action config to struts.xml
+  0.8 http://localhost:8080/start_j2ee/struts2index.action	[在struts配置文件中配置action:struts2index]
+  
+----------------------------------------------------------------DEMO
+1.[helloworld] Hello World Using Struts 2 + Using Struts 2 Tags + Coding Struts 2 Actions
+
+2.[form] Processing Forms + Form Validation + Message Resource Files
+
+3.[formtags] Struts 2 Form Tags + Form Validation Using XML + Struts 2 Themes + Spring and Struts 2
+
+4.[wildcard] Wildcard Method Selection(+Spring-plugin) 占位符/Spring集成
+
+5.[annotatons] Annotations(+Convention-plugin) 注解使用/约定由于配置
+
+6.[interceptors] Interceptors(Log Interceptor) 拦截器简单运用
+
+7.[modeldriven] JavaBean & ModelDriven ② 字段驱动还是模型驱动
+
+8.[fileupload] FileUpload ③ 文件路径问题/显示图片
+
+9.[json] JSON-plugin  ④ JSON格式数据显示
+
+----------------------------------------------------------------Q&A
+1.路径问题:
+index.jsp页面直接访问webapp下的某文件夹下的文件.比如:struts2/register.jsp存在问题.
+
+A. http://localhost:8080/start_j2ee/		
+B. http://localhost:8080/start_j2ee/index.jsp
+C. http://localhost:8080/start_j2ee/struts2_index.jsp		404
+D. http://localhost:8080/start_j2ee/struts2/index.jsp  		404
+E. http://localhost:8080/start_j2ee/struts2index.action  	OK
+
+F. http://localhost:8080/start_j2ee/ssj/index.jsp  			OK?
+G. http://localhost:8080/start_j2ee/extjs3/menu_demo.jsp  	OK?
+
+1.如何访问webapp下的页面:
+
+A.	如果是新建一个web项目,一开始是可以这么访问的.但是加入了struts的过滤器.则:
+	There is no Action mapped for namespace / and action name
+	
+B.	It's OK.
+	但是如果webapp/index.jsp文件不存在: 404
+	或者web.xml中struts2的URL拦截器设置为:*.action.则*.jsp页面无法被拦截:
+
+C.	把webapp/index.jsp改成struts2_index.jsp:	
+	HTTP ERROR 404
+	Problem accessing /start_j2ee/struts2_index.jsp. Reason:     NOT_FOUND
+
+D.	把index.jsp转到webapp/struts2/index.jsp
+	同上.404
+	
+E.	采用struts配置文件来转向(可以转到webapp下的任何目录下):
+	<action name="struts2index">
+		<result>/struts2_index.jsp</result>
+	</action>	
+	<action name="struts2index">
+		<result>/struts2/index.jsp</result>
+	</action>	
+	It's OK!
+	1).建议使用这种方式,在struts配置文件中配置action:index.
+	2).并且所有的URL都建议采用某一规则*.action来访问,即设置web.xml中struts2的URL为:*.action
+	3).采用在struts.xml中配置,还有一个好处是可以转到webapp下的任何目录.比如/struts2/index.jsp
+	
+F.G.页面使用JSP标签,不包含struts2标签.可以正常访问.
+	
+----------------------------------------------------------------	
+2.Struts2 JSTL
+标签库:common/taglibs.jsp
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" /> 
+页面引入:
+<%@ include file="/common/taglibs.jsp"%>
+使用ctx变量: ${ctx}
+
+否则在JSP页面使用JSTL标签,无法解析.
+
+
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/js/extjs-3.3.1-min/resources/css/ext-all.css"/>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/extjs-3.3.1-min/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/extjs-3.3.1-min/ext-all.js"></script>
+
+<link href="../js/extjs-3.3.1-min/resources/css/ext-all.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/extjs-3.3.1-min/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="../js/extjs-3.3.1-min/ext-all.js"></script>
+
+<link href="${ctx}/js/extjs-3.3.1-min/resources/css/ext-all.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{ctx}/js/extjs-3.3.1-min/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="{ctx}/js/extjs-3.3.1-min/ext-all.js"></script>
+	
+	
+	
+	
+

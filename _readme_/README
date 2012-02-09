@@ -1,0 +1,88 @@
+http://localhost:8080/ffcssomfz
+
+O.	start_j2ee是本人学习j2ee的项目源代码集合.除了官方的代码示例外,还参考了一些网上论坛博客的资源.
+本项目采用maven3.涉及到的技术有:struts2,lucene3,quartz1,spring3,hibernate3.6...以及各个框架之间的整合,
+比如struts2+lucene,spring+quartz[+lucene]
+ssj:struts,sprign,jpa
+ssh:struts,spring,hibernate
+ssi:struts,spring,ibatis
+ssm:struts,spring,mybatis
+smm:spring,spingMVC,mybatis
+-------------------------------------------------------------------框架版本
+概览:
+	struts2
+	lucene3
+	quartz1
+	spring3:
+	jpa2:(ssj)
+		hibernate-entitymanager =>JPA的实现
+	hibernate3.6:(ssh)
+		hibernate-entitymanager	=>必须滴
+		hibernate-core			=>包含了annotations and commons-annotations
+
+问题:
+struts2和spring集成,使用spring2.5版本.如果Spring要使用3.0+?
+ 采用exclusions.见pom.xml中关于struts2的配置
+
+struts2和hibernate3都依赖slf4j javassist.如果两者依赖的版本不一样?
+
+候选版本:
+javassist
+	3.8.0.GA
+	3.12.0.GA
+Spring:
+	3.0.5.RELEASE
+	3.1.0.RELEASE
+Hibernate:
+	3.3.1.GA
+	3.5.6-Final
+	3.6.1.Final
+	3.6.8.Final
+	After Hibernate3.5,annotations and commons-annotations integration to hibernate-core
+        <dependency>  
+            <groupId>org.hibernate</groupId>  
+            <artifactId>hibernate-commons-annotations</artifactId>  
+            <version>3.2.0.Final</version>  
+        </dependency>
+       	<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.5.6-Final</version>
+		</dependency>
+---------------------------------------------------------------------URL:ssh
+A.	[com.xuyuan.ssh]
+	基于Annotation的Struts2.0+Hibernate3.3+Spring2.5整合开发	http://www.blogjava.net/rongxh7/category/39847.html
+	使用Annotation并对DAO层封装具有分页功能的S2SH整合实例			http://www.blogjava.net/lishunli/archive/2010/03/10/315055.html
+	Struts2.1.6+Spring2.5.6+Hibernate3.3.1全注解实例详解 		http://www.blogjava.net/bolo/default.html?page=2
+	
+	http://localhost:8080/start_j2ee/ 		会跳转到:
+	http://localhost:8080/start_j2ee/login/login!login.action
+
+B.	Hibernate+Spring+Struts2+ExtJS开发CRUD功能:[extjs3.action.LevelAction]
+	http://blog.csdn.net/myloon/archive/2007/11/08/1873652.aspx
+	
+	http://localhost:8080/start_j2ee/LevelAjaxJsonData.action
+	http://localhost:8080/start_j2ee/extjs3/Level.jsp 
+	
+C.	Struts2、Spring、Hibernate整合ExtJS:[extjs3.action.TreeDemoAction]
+	http://www.cnblogs.com/hoojo/archive/2011/01/07/1929577.html
+	
+	http://localhost:8080/start_j2ee/treedemo.action
+	http://localhost:8080/start_j2ee/extjs3/tree/tree_demo.jsp	
+	
+D.	S2SH整合构建Ext动态树(带右键菜单操作):[extjs3.action.TreeCRUDAction]
+	http://www.cnblogs.com/BruceLeey/archive/2009/06/06/1497851.html	
+	
+	http://localhost:8888/start_j2ee/extjs3/tree_crud/tree_crud.jsp 不需要DWR
+ 	http://localhost:8888/start_j2ee/extjs3/tree_crud/console-index.jsp 使用DWR
+	
+---------------------------------------------------------------------extjs3
+struts2整合extjs 3.0集成的简单登录例子:[LoginDemoAction]
+	http://dos-liu.iteye.com/blog/509053 
+	http://localhost:8080/start_j2ee/extjs3/login.jsp
+
+ExtJS Tree + JSON + Struts2:[MenuDemoAction]
+	http://www.blogjava.net/usherlight/archive/2008/02/19/180590.html
+	http://localhost:8080/start_j2ee/extjs3/menu_demo.jsp
+
+
