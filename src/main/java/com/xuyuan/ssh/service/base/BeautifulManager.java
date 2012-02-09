@@ -1,0 +1,1 @@
+package com.xuyuan.ssh.service.base;import org.springframework.stereotype.Service;@Servicepublic class BeautifulManager {}
