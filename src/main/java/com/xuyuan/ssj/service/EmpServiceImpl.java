@@ -16,6 +16,10 @@ import com.xuyuan.ssj.model.Person;
 @Service("empService")
 public class EmpServiceImpl implements EmpService {
 
+	/**
+	 * @uml.property  name="empDao"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private EmpDao empDao;
 

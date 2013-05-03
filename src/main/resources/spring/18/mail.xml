@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!-- 18-4. Sending E-mail with Spring’s E-mail Support -->
+    <!-- java mail aip -->
+    <bean id="errorNotifier1" class="com.xuyuan.spring3.recipes.enterprise.mail.java.EmailErrorNotifier" />
+    
+    <!-- spring helper -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+        <!--  
+        <property name="host" value="localhost" /> 
+        <property name="port" value="25" />
+        <property name="username" value="system" /> 
+        <property name="password" value="123456" /> 
+        --> 
+        <property name="host" value="smtp.gmail.com" /> 
+        <property name="port" value="587" /> 
+        <property name="username" value="zqhxuyuan" /> 
+        <property name="password" value="fishxuyuan" />
+        <property name="javaMailProperties">
+		   	<props>
+	       		<prop key="mail.smtp.auth">true</prop>
+	       	    <prop key="mail.smtp.starttls.enable">true</prop>
+	      	</props>
+		</property> 
+    </bean> 
+    
+    <bean id="errorNotifier2" class="com.xuyuan.spring3.recipes.enterprise.mail.spring.EmailErrorNotifier"> 
+        <property name="mailSender" ref="mailSender" /> 
+    </bean>
+	 
+	<bean id="copyErrorMailMessage" class="org.springframework.mail.SimpleMailMessage"> 
+		<!-- 
+        <property name="from" value="system@localhost" />
+        <property name="to" value="admin@localhost" /> 
+        -->         
+        <property name="from" value="from@no-spam.com" /> 
+        <property name="to" value="zqhxuyuan@gmail.com" /> 
+        <property name="subject" value="File Copy Error" /> 
+        <property name="text"> 
+            <value> 
+				<![CDATA[ 
+				Dear Administrator, 
+				 
+				An error occurred when copying the following file : 
+				Source directory : %s 
+				Destination directory : %s 
+				Filename : %s 
+				]]> 
+            </value> 
+        </property> 
+    </bean> 
+    <bean id="errorNotifier3" class="com.xuyuan.spring3.recipes.enterprise.mail.template.EmailErrorNotifier"> 
+        <property name="mailSender" ref="mailSender" /> 
+        <property name="copyErrorMailMessage" ref="copyErrorMailMessage" /> 
+    </bean>
+</beans>

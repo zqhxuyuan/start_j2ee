@@ -16,7 +16,7 @@ import com.xuyuan.struts2.wildcard.model.Person;
  *
  */
 public class PersonService {
-	private static final Logger logger = Logger.getLogger( PersonService.class.getName() );
+	//private static final Logger logger = Logger.getLogger( PersonService.class.getName() );
 
 	//模拟数据库中的用户列表数据
 	private static SortedMap<Integer, Person> people = new TreeMap<Integer, Person>();
@@ -55,7 +55,7 @@ public class PersonService {
     	try {
     	  newId = people.lastKey() + 1;
     	} catch (NoSuchElementException ex) {
-    		logger.info("Id value set to 0");
+    		//logger.info("Id value set to 0");
     	}
     	return newId;
 	}

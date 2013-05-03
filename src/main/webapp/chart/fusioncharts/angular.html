@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Angular Gauge</title>
+<script type="text/javascript" src="../../js/Charts/FusionChartsXT-3.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/Charts/FusionChartsXT-3.2.4/FusionCharts.js"></script>
+</head>
+<body>
+<div id="chartdiv" align="center"></div>
+<script type="text/javascript">
+var dataString ='<chart manageResize="1"  origW="200" origH="100" lowerLimit="0" upperLimit="100" numberSuffix="%" chartTopMargin="0"  chartBottomMargin="0" showBorder="0" basefontColor="FFFFFF" toolTipBgColor="453269" bgColor="443266,333235" bgAngle="0" bgAlpha="100,100" >\n\
+   <colorRange>\n\
+      <color minValue="0" maxValue="75" code="FF654F"/>\n\
+      <color minValue="75" maxValue="90" code="F6BD0F"/>\n\
+      <color minValue="90" maxValue="100" code="8BBA00"/>\n\
+   </colorRange>\n\
+   <dials>\n\
+      <dial value="92" rearExtension="10"/>\n\
+   </dials>\n\
+	<annotations>\n\
+	<annotationGroup x="100" y="40" showBelow="0" scaleText="1">\n\
+		<annotation type="text" y="40" label="合格率" fontColor="FFFFFF" fontSize="14" bold="1"/>\n\
+	</annotationGroup>\n\
+</annotations>\n\
+</chart>'; 
+
+FusionCharts.setCurrentRenderer("javascript"); 
+var chart = new FusionCharts("../../js/Charts/FusionChartsXT-3.2.4/AngularGauge.swf", "ChartId", "200", "100", "0", "1" );
+chart.setXMLData( dataString );
+chart.render("chartdiv");
+</script>
+</body>
+</html>

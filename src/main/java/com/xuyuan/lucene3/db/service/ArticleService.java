@@ -10,9 +10,20 @@ import com.xuyuan.util.Config;
 
 public class ArticleService {
 
+	/**
+	 * @uml.property  name="articleDao"
+	 * @uml.associationEnd  
+	 */
 	private ArticleDao articleDao;
+	/**
+	 * @uml.property  name="articleIndexDao"
+	 * @uml.associationEnd  
+	 */
 	private ArticleIndexDao articleIndexDao;
 
+	/**
+	 * @uml.property  name="iNDEXPATH"
+	 */
 	String INDEXPATH = Config.INDEXPATH;
 
 	/**
@@ -55,16 +66,32 @@ public class ArticleService {
 		}
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="articleDao"
+	 */
 	public ArticleDao getArticleDao() {
 		return articleDao;
 	}
+	/**
+	 * @param articleDao
+	 * @uml.property  name="articleDao"
+	 */
 	public void setArticleDao(ArticleDao articleDao) {
 		this.articleDao = articleDao;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="articleIndexDao"
+	 */
 	public ArticleIndexDao getArticleIndexDao() {
 		return articleIndexDao;
 	}
+	/**
+	 * @param articleIndexDao
+	 * @uml.property  name="articleIndexDao"
+	 */
 	public void setArticleIndexDao(ArticleIndexDao articleIndexDao) {
 		this.articleIndexDao = articleIndexDao;
 	}

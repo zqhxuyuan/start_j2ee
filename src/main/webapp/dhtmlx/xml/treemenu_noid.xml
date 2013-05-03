@@ -1,0 +1,18 @@
+<tree id="0">
+	<item text="Java">
+		<item text="Thinking in java">
+			<userdata name="thisurl">java_tij.action</userdata>
+		</item>
+		<item text="Head first design pattern">
+			<userdata name="thisurl">java_hfdp.action</userdata>
+		</item>
+	</item>
+	<item text="Fiction">
+		<item text="Harry Porter">
+			<userdata name="thisurl">fiction_hp.action</userdata>
+		</item>
+		<item text="Oliver Twist">
+			<userdata name="thisurl">fiction_ot.action</userdata>
+		</item>
+	</item>
+</tree>

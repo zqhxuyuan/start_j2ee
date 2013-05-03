@@ -1,0 +1,2 @@
+compass 支持lucene2.4，不支持lucene3
+solr 单独放在项目中，启动的时候会报错。但是如果使用hibernate-search，依赖solr，则不会报错

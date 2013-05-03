@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://www.getahead.ltd.uk/dwr//dwr20.dtd">
 
+<!-- javascript属性为用户调用DWR的实例名称
+creator:
+	new:通过new创建
+	spring:由Spring管理创建
+param:
+	beanName:为DWR配置Spring时特定，value值为在applicationContext.xml中配置的bean
+	class:业务类全路径
+new对应class; spring对应beanName	
+include: 提供访问的方法 
+-->
+
 <dwr>
 	<allow>
-		<!-- javascript属性为用户调研DWR的实例，这里creator交由Spring监管
-		beanName为DWR配置Spring时特定，value值为在applicationContext.xml中配置的bean
-		include: 提供访问的方法 -->
+		<create creator="new" javascript="helloworld"> 
+  			<param name="class" value="com.xuyuan.commons.dwr.HelloWorld" /> 
+		</create> 
+		<create creator="spring" javascript="dwr_spring">
+			<param name="beanName" value="dwr_spring"></param>
+		</create> 
+	
 		<create javascript="TreeDWR" creator="spring">
 			<param name="beanName" value="treeService"></param>
 			<include method="ajaxModifyTitle" />
 			<include method="ajaxRemoveParentById" />
 			<include method="ajaxMoveNode" />
 		</create>
+		
+		<!-- 使用class,直接创建对象实例,调用方法.map里没有数据,会报NullPointerException.采用beanName,引用Spring中的配置文件,有初始化的数据 -->
+		<!--
+		<create creator="new" javascript="CityService"> 
+            <param name="class" value="com.xuyuan.spring3.recipes.intergratweb.servlet.CityServiceImpl" /> 
+            <include method="findDistance" /> 
+        </create>
+        -->
+        <!-- dwr2.0 可以配置在Spring中,就不需要dwr.xml了 -->
+		<create creator="spring" javascript="CityService"> 
+            <param name="beanName" value="cityService" /> 
+            <include method="findDistance" /> 
+        </create>
 	</allow>
 </dwr>

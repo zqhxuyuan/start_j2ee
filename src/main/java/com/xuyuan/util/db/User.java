@@ -1,0 +1,138 @@
+package com.xuyuan.util.db;
+
+public class User {
+
+	/**
+	 * @uml.property  name="id"
+	 */
+	private Integer id;
+	/**
+	 * @uml.property  name="name"
+	 */
+	private String name;
+	/**
+	 * @uml.property  name="username"
+	 */
+	private String username;
+	/**
+	 * @uml.property  name="password"
+	 */
+	private String password;
+	/**
+	 * @uml.property  name="email"
+	 */
+	private String email;
+	/**
+	 * @uml.property  name="phone"
+	 */
+	private String phone;
+	/**
+	 * @uml.property  name="dept"
+	 */
+	private String dept;
+	
+	/**
+	 * @return
+	 * @uml.property  name="id"
+	 */
+	public Integer getId() {
+		return id;
+	}
+	/**
+	 * @param id
+	 * @uml.property  name="id"
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	/**
+	 * @return
+	 * @uml.property  name="name"
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name
+	 * @uml.property  name="name"
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return
+	 * @uml.property  name="username"
+	 */
+	public String getUsername() {
+		return username;
+	}
+	/**
+	 * @param username
+	 * @uml.property  name="username"
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	/**
+	 * @return
+	 * @uml.property  name="password"
+	 */
+	public String getPassword() {
+		return password;
+	}
+	/**
+	 * @param password
+	 * @uml.property  name="password"
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	/**
+	 * @return
+	 * @uml.property  name="email"
+	 */
+	public String getEmail() {
+		return email;
+	}
+	/**
+	 * @param email
+	 * @uml.property  name="email"
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	/**
+	 * @return
+	 * @uml.property  name="phone"
+	 */
+	public String getPhone() {
+		return phone;
+	}
+	/**
+	 * @param phone
+	 * @uml.property  name="phone"
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	/**
+	 * @return
+	 * @uml.property  name="dept"
+	 */
+	public String getDept() {
+		return dept;
+	}
+	/**
+	 * @param dept
+	 * @uml.property  name="dept"
+	 */
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", username=" + username
+				+ ", password=" + password + ", email=" + email + ", phone="
+				+ phone + ", dept=" + dept + "]";
+	}
+}

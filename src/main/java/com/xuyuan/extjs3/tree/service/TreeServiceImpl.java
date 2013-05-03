@@ -7,18 +7,17 @@ import com.xuyuan.extjs3.tree.bean.Tree;
 import com.xuyuan.extjs3.tree.dao.TreeDao;
 
 public class TreeServiceImpl <T extends Tree> implements TreeService<T>{
+	/**
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  
+	 */
 	private TreeDao<T> dao;
-	
 	public void setDao(TreeDao<T> dao) {
 		this.dao = dao;
 	}
 
-	public List<T> getTreeListByParentId(T entity) throws Exception {
-		return dao.getTreeListByParentId(entity);
-	}
-	
 	/**
-	 * 这是一个递归查询，如果你一下看不明白递归的代码，可以参考getSortByParentId2Leaf方法
+	 * 这是一个递归查询，如果你一下看不明白递归的代码，可以参考getTreeByParentId2Leaf方法
 	 * 然后将循环中相同的代码改造成递归即可
 	 */
 	@SuppressWarnings("unchecked")
@@ -26,26 +25,27 @@ public class TreeServiceImpl <T extends Tree> implements TreeService<T>{
 		List<T> child =  dao.getTreeListByParentId(entity);
 		//如果某个节点下有子节点,那么把子节点的所有集合设为当前节点的children.否则这个节点就是叶子节点.
 		if (child.size() > 0) {
+			entity.setChildren((List<Tree>)child);
 			for (T s : child) {
 				this.getTreeByParentId2Recursion(s);
 			}
-			entity.setChildren((List<Tree>)child);
+			//entity.setChildren((List<Tree>)child); //把这段代码放在调用递归函数之前比较好理解. 先执行setChildren在递归调用自身,如此循环
 		} else {
 			entity.setLeaf(true);
 		}
 	}
-	
 
-	//-----------------------------------------------------------------
 	/**
 	 * 帮助你理解递归.  如果树的分层在3层以上呢.下面的代码就要再套上相应的层数的循环. 这也是Tree中只构造3层树的原因.
-	 * 当然因为下面这段代码没有真正用到.上面的递归的方法getTreeByParentId2Recursion 是可以分无穷层di.
+	 * 当然因为下面这段代码没有真正用到.上面的递归的方法getTreeByParentId2Recursion 是可以分无穷层滴.
 	 	if (nodelevel < 3) {
 			this.leaf = false;
 		} else {
 			this.leaf = true;
 		}
 	 */
+
+	/**
 	public void getTreeByParentId2Leaf(T entity) throws Exception {
 		List<T> child =  dao.getTreeListByParentId(entity);
 		if (child.size() > 0) {
@@ -78,8 +78,9 @@ public class TreeServiceImpl <T extends Tree> implements TreeService<T>{
 			entity.setLeaf(true);
 		}
 	}
+	*/
 	//-----------------------------------------------------------------
-	
+
 	public void ajaxModifyTitle(Long id, String title) throws Exception {
         Exttree node = dao.findById(id);
         if (!title.equals(node.getTitle())) { // 当节点标题确认修改了后调用
@@ -120,7 +121,7 @@ public class TreeServiceImpl <T extends Tree> implements TreeService<T>{
 
     /**
      * update exttree set number=number-1 where parentId = PARENTID and number <= MAX and number > MIN
-     * 
+     *
      */
     public void downNode(int parentId, int minIndex, int maxIndex) throws Exception {
         StringBuffer hql = new StringBuffer("update exttree set number=number-1 where parentId = " + parentId);

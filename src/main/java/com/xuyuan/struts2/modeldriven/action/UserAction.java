@@ -15,8 +15,13 @@ import com.xuyuan.struts2.modeldriven.model.User;
  */
 public class UserAction extends ActionSupport implements ModelDriven{
 
+	/**
+	 * @uml.property  name="user"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private User user = new User();
 
+	//要实现这个方法
 	public Object getModel() {
 		return user;
 	}
@@ -29,9 +34,17 @@ public class UserAction extends ActionSupport implements ModelDriven{
 		return SUCCESS;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="user"
+	 */
 	public User getUser() {
 		return user;
 	}
+	/**
+	 * @param user
+	 * @uml.property  name="user"
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}

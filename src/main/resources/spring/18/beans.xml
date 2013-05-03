@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+ 
+    <bean id="fileCopier" class="com.xuyuan.spring3.recipes.enterprise.FileCopierImpl" /> 
+    
+    <bean id="documentReplicator" class="com.xuyuan.spring3.recipes.enterprise.FileReplicatorImpl"> 
+        <property name="srcDir" value="#{systemProperties['user.home']}/docs"/>
+        <property name="destDir" value="#{systemProperties['user.home']}/docs_backup"/>
+        <property name="fileCopier" ref="fileCopier" /> 
+    </bean> 
+    
+</beans>

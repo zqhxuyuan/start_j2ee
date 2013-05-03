@@ -3,7 +3,7 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	
+
 	<package name="utilSample" extends="struts-default">
 		<!-- Lucene -->
 		<action name="articleSearch" class="com.xuyuan.lucene3.db.action.ArticleAction">
@@ -11,82 +11,71 @@
 		</action>
 
 	</package>
-	
-	<package name="json" namespace="/json" extends="struts-default" >  
-		<!-- 或者注释以下内容,采用extends=json-default -->
-        <result-types>  
-            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>  
-        </result-types>  
-        <interceptors>  
-            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>  
-        </interceptors>  
-        
-        <action name="jsonExample1" class="jsonExample1">  
-            <result type="json"/>  
-        </action>
-        <action name="getMyUserList" class="jsonExample1" method="getMyUserList">  
-            <result type="json">  
-                <param name="root">userList</param>  
-            </result>  
-        </action>  
-        <action name="getMyUserMap" class="jsonExample1" method="getMyUserMap">  
-            <result type="json">  
-            	<param name="root">userMap</param>  
-            </result>  
-        </action>
-    </package>  
 
-	<!-- Book CRUD & Page DEMO  -->    
-    <package name="pager" extends="struts-default" >
-    	<result-types>
-			<result-type name="freemarker" class="org.apache.struts2.views.freemarker.FreemarkerResult" default="true" />
-		</result-types>
-		
-    	<!-- pager-taglib -->
-		<action name="memPagerUser" class="pagerUserAction" method="memPage">
-			<result name="success">/pager-taglib/pagerUser_mem.jsp</result>
-		</action>
-		<action name="dbPagerUser" class="pagerUserAction" method="dbPage">
-			<result name="success">/pager-taglib/pagerUser_db1.jsp</result>
-		</action>
-		<action name="pagerUser" class="pagerUserAction">
-			<result name="success">/pager-taglib/pagerUser_db.jsp</result>
-		</action>
-		
-		<!-- 分页1:带查询条件 -->
-		<action name="booklist" class="booksAction" method="list">
-			<result name="success">/pager/booklist.jsp</result>
-		</action>
-		<action name="bookdelete" class="booksAction" method="delete">
-			<result type="redirect">booklist.action?queryMap=${queryMap}</result>
-		</action>
-		<action name="bookedit" class="booksAction" method="load">
-			 <result>/pager/bookedit.jsp</result>
-		</action>
-		<action name="booksave" class="booksAction" method="save">
-			<result name="input">/pager/bookedit.jsp</result>
-            <result type="redirect">booklist.action?queryMap=${queryMap}</result>
-		</action>
-		
-		<!-- 分页2:不带查询条件 -->
-		<action name="bookpage" class="bookpage">
-			<result name="success">/pager/bookpage.jsp</result>
-		</action>
-		
-		<!-- 分页3:采用FreeMarker -->
-		<action name="book_*" class="bookPageAction" method="{1}">
-			<result name="list">/pager/book_list.ftl</result>
-		</action>
-		
-		<action name="bookBase" class="bookBaseAction">
-			<result name="success">/pager/book_list.jsp</result>
-		</action>
-	</package>
+	<package name="json" extends="struts-default">
+		<!-- 1. 使用struts-json-plugin -->
+        <result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+            <result-type name="jsonResult" class="com.xuyuan.struts2.json.JsonResult" />  <!-- 自定义JSONResult返回类型 -->
+            <result-type name="jsonResult2" class="com.xuyuan.struts2.json.JsonResult2" />
+        </result-types>
+        <interceptors>
+            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+        </interceptors>
+
+		<!-- 封装所有以get开头的方法 -->
+        <action name="jsonPluginTest" class="com.xuyuan.struts2.json.action.Struts2JSONPluginTestAction">
+            <result type="json"/> 
+        </action>
+        <!-- 根对象只包含userList属性 -->
+        <action name="returnList" class="com.xuyuan.struts2.json.action.Struts2JSONPluginTestAction" method="returnList">
+            <result type="json">
+                <param name="root">userList</param> 
+            </result>
+        </action>
+        <action name="returnMap" class="com.xuyuan.struts2.json.action.Struts2JSONPluginTestAction" method="returnMap">
+            <result type="json">
+            	<param name="root">userMap</param>
+            </result>
+        </action>
+    	
+    	<!-- 2. 使用JSON转换工具 -->
+        <action name="jsonTest" class="com.xuyuan.struts2.json.action.Struts2JSONTestAction">
+        	<result>/js/jsonString.jsp</result>
+        	<result name="json" type="jsonResult">
+				<param name="jsonObjName">result</param>
+    		</result>
+        	<result name="json2" type="jsonResult2">
+				<param name="jsonObjName">jsonString</param>
+    		</result>
+        </action>
+    </package>
+
 	
+
 	<package name="chart" extends="struts-default">
+		<result-types>
+            <result-type name="chart" class="org.apache.struts2.dispatcher.ChartResult"></result-type>
+            <!-- 自定义返回类型 -->
+            <result-type name="myChart" class="com.xuyuan.chart.jfreechart.util.MyChartResult"></result-type>
+        </result-types>
+        <action name="piechart" class="com.xuyuan.chart.jfreechart.PieChart">
+           	<!--
+           	<result type="chart">
+				<param name="width">400</param>
+               	<param name="height">300</param>
+            </result>
+            -->
+            <result type="myChart">
+				<param name="width">400</param>
+               	<param name="height">300</param>
+               	<param name="imageType">jpg</param>
+            </result>
+        </action>
+
 		<action name="fusionchart" class="fusionChartAction" method="chart">
-			<result name="chart">/chart/fusionchart.jsp</result>  
-		</action> 
+			<result name="chart">/chart/fusioncharts/fusionchart.jsp</result>
+		</action>
 	</package>
-	
+
 </struts>

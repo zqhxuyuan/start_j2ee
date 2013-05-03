@@ -12,25 +12,37 @@
             http://www.springframework.org/schema/context/spring-context-3.0.xsd"
             default-autowire="byType">
     <!-- <import resource="applicationContext_ds.xml" /> -->
-	 
+
     <context:component-scan base-package="com.xuyuan.ssi" />
     <context:annotation-config />
-    
+
    	<!-- IBatis ORM 操作类 -->
-   	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">  
-        <property name="dataSource" ref="dataSource" />  
-        <property name="configLocation" value="classpath:SqlMapConfig.xml" />  
+   	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:SqlMapConfig.xml" />
     </bean>
-    
+
     <!-- Spring的IBatis模板.Dao使用sqlMapClientTemplate属性.如果Dao继承SqlMapDaoSupport则不需要此配置 -->
     <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-        <property name="sqlMapClient" ref="sqlMapClient"></property>  
+        <property name="sqlMapClient" ref="sqlMapClient"></property>
     </bean>
-    
+
     <!-- 事务管理配置 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager" />
-    
+
+	<!-- jqGrid -->
+	<!--
+   	<bean id="jqUserDao" class="com.xuyuan.ssi.dao.UserDaoIBatisImpl">
+		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate"/>
+	</bean>
+	<bean id="jqUserService" class="com.xuyuan.ssi.service.UserService">
+		<property name="userdao" ref="jqUserDao"/>
+	</bean>
+	<bean id="jqGridAction" class="com.xuyuan.ssi.action.JQGridAction">
+		<property name="userService" ref="jqUserService"/>
+	</bean>
+	-->
 </beans>

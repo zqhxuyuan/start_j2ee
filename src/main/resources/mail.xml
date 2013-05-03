@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/jdbc
+            http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/security 
+        	http://www.springframework.org/schema/security/spring-security-3.0.xsd
+        	http://www.directwebremoting.org/schema/spring-dwr 
+	        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+	<!-- Struts2+Spring -->
+	<!-- if ActionSupport DI by Spring,in struts.xml,action's class refere this id's value -->
+	<bean id="editService" class="com.xuyuan.struts2.formtags.service.EditServiceInMemory" />
+	<bean id="editAction" class="com.xuyuan.struts2.formtags.action.EditAction" >
+		<property name="editService" ref="editService" />
+	</bean>
+
+	<bean id="personService" class="com.xuyuan.struts2.wildcard.service.PersonService" />
+
+	<!-- Struts2 + Lucene3 -->
+	<bean id="articleDao" class="com.xuyuan.lucene3.db.dao.ArticleDao" />
+	<bean id="articleIndexDao" class="com.xuyuan.lucene3.db.dao.ArticleIndexDao" />
+	<bean id="articleService" class="com.xuyuan.lucene3.db.service.ArticleService">
+		<property name="articleDao" ref="articleDao"/>
+		<property name="articleIndexDao" ref="articleIndexDao"/>
+	</bean>
+	
+	<!-- Struts2+JSON -->
+	<!--
+	<bean id="jsontest" class="com.xuyuan.struts2.json.action.Struts2JSONPluginTestAction" scope="prototype"/>
+	-->
+	
+	<!-- 日志切面类,该切面类上定义了@Aspect,每个定义了@Aspect的切面类如果想要进行AOP切入,都需要在这里定义bean.如果业务需求不需要AOP,则注释该代码即可 -->
+	<!-- 
+	<bean class="com.xuyuan.ssh.common.aop.LogAspect" />
+	<bean id="concurrentOperationExecutor" class="com.xuyuan.spring3.aop.ConcurrentOperationExecutor">
+		<property name="maxRetries" value="3"/>
+	    <property name="order" value="100"/>  
+	</bean>
+	 -->
+	 
+	<!-- dwr + spring -->
+	<bean id="dwr_spring" class="com.xuyuan.commons.dwr.DwrSpring"/>
+	
+	<!-- ++++++++++++++++++++++SpringRecipes++++++++++++++++++++++ -->
+	<!-- 05:SpringSecurity Board -->
+	<tx:annotation-driven />
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+        <property name="dataSource" ref="dataSource" /> 
+    </bean>
+	<bean id="messageBoardService" class="com.xuyuan.spring3.recipes.security.board.service.MessageBoardServiceImpl">
+		<!-- 5-5. Securing Method Invocations : Embedding a Security Interceptor   -->
+		<!-- 
+		<security:intercept-methods access-decision-manager-ref="accessDecisionManager"> 
+            <security:protect method="com.xuyuan.spring3.recipes.security.board.service.MessageBoardService.listMessages" 		access="ROLE_USER,ROLE_GUEST" /> 
+            <security:protect method="com.xuyuan.spring3.recipes.security.board.service.MessageBoardService.postMessage" 		access="ROLE_USER" /> 
+            <security:protect method="com.xuyuan.spring3.recipes.security.board.service.MessageBoardService.deleteMessage" 		access="ROLE_ADMIN,IP_LOCAL_HOST" /> 
+            <security:protect method="com.xuyuan.spring3.recipes.security.board.service.MessageBoardService.findMessageById" 	access="ROLE_USER,ROLE_GUEST" /> 
+        </security:intercept-methods>
+         -->
+         <!-- 5-7. Maintaining ACLs for Domain Objects -->
+         <property name="mutableAclService" ref="aclService" />
+	</bean>
+	
+	<!-- 6-1. Accessing Spring in Generic Web Applications -->
+	<bean id="cityService" class="com.xuyuan.spring3.recipes.intergratweb.servlet.CityServiceImpl"> 
+        <property name="distanceMap"> 
+            <map> 
+                <entry key="New York"> 
+                    <map> 
+                        <entry key="London" value="5574" /> 
+                        <entry key="Beijing" value="10976" /> 
+                    </map> 
+                </entry> 
+            </map> 
+        </property> 
+    </bean>
+    <bean id="distance" class="com.xuyuan.spring3.recipes.intergratweb.servlet.DistanceHttpRequestHandler"> 
+        <property name="cityService" ref="cityService"/> 
+    </bean> 
+    <bean id="cityServiceRequestAuditor" class="com.xuyuan.spring3.recipes.intergratweb.filter.CityServiceRequestAuditor" /> 
+    <bean id="cityServiceRequestFilter" class="com.xuyuan.spring3.recipes.intergratweb.filter.CityServiceRequestFilter"> 
+        <property name="cityServiceRequestAuditor" ref="cityServiceRequestAuditor" /> 
+    </bean>
+    
+    <!-- 6-4. Integrating Spring with JSF -->
+    <!-- centralize bean declaration under the management of Spring’s IoC container -->
+    <bean id="distanceBean" class="com.xuyuan.spring3.recipes.intergratweb.jsf.DistanceBean" scope="request"> 
+    	<property name="cityService" ref="cityService" /> 
+	</bean>
+	
+	<!-- Configuring DWR in Spring’s Bean Configuration File -->
+	<!-- 直接创建对象实例，调用方法，报NullPointerException，因为Map没有初始化数据。实际中业务类调用不采用Map而是从DB获取，没有这个问题 -->
+	<!-- 
+	<dwr:configuration />
+	<bean id="cityService2" class="com.xuyuan.spring3.recipes.intergratweb.servlet.CityServiceImpl"> 
+        <dwr:remote javascript="CityService"> 
+            <dwr:include method="findDistance" /> 
+        </dwr:remote>
+    </bean>
+    -->
+    
+    <!-- 18-4. Sending E-mail with Spring’s E-mail Support -->
+    <!-- java mail aip -->
+    <bean id="errorNotifier1" class="com.xuyuan.spring3.recipes.enterprise.mail.java.EmailErrorNotifier" />
+    
+    <!-- spring helper -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+        <property name="host" value="localhost" /> 
+        <property name="port" value="25" /> 
+        <property name="username" value="system" /> 
+        <property name="password" value="123456" /> 
+    </bean> 
+    
+    <bean id="errorNotifier2" class="com.xuyuan.spring3.recipes.enterprise.mail.spring.EmailErrorNotifier"> 
+        <property name="mailSender" ref="mailSender" /> 
+    </bean>
+	 
+	<bean id="copyErrorMailMessage" class="org.springframework.mail.SimpleMailMessage"> 
+        <property name="from" value="system@localhost" /> 
+        <property name="to" value="admin@localhost" /> 
+        <property name="subject" value="File Copy Error" /> 
+        <property name="text"> 
+            <value> 
+				<![CDATA[ 
+				Dear Administrator, 
+				 
+				An error occurred when copying the following file : 
+				Source directory : %s 
+				Destination directory : %s 
+				Filename : %s 
+				]]> 
+            </value> 
+        </property> 
+    </bean> 
+    <bean id="errorNotifier3" class="com.xuyuan.spring3.recipes.enterprise.mail.template.EmailErrorNotifier"> 
+        <property name="mailSender" ref="mailSender" /> 
+        <property name="copyErrorMailMessage" ref="copyErrorMailMessage" /> 
+    </bean>
+</beans>

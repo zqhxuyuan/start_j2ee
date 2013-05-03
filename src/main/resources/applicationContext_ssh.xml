@@ -17,16 +17,42 @@
             http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context-3.0.xsd"
-   	default-autowire="byName" default-lazy-init="false">
+   	default-autowire="byName" default-lazy-init="false"
+   	>
+	<!-- 1.定义受环境影响易变的变量 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:application.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- <context:property-placeholder location="classpath:application.properties"/> -->
 
-	<!--
-	Spring3 + Hibernate3
+	<!-- 2.数据源配置:使用应用内的DBCP数据库连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="maxWait" value="${jdbc.maxWait}" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean>
+	<!-- **********************************************************
+
 	3.使用annotation自动注册bean,保证@Required,@Autowired的属性,以及@Repository[Dao],@Service[Service]的类被注入.
 	4.Hibernate配置:使用注解的方式映射实体以及创建Hibernate SessionFactory
 	5.事务管理器配置:单数据源事务,使用Hibernate的事务管理
 	6.AOP方式声明事务.[注解式事务控制见ssj,ssi项目] proxy-target-class="true":如果业务没有实现任何接口,则强制使用CGLib动态代理.
-	-->
-	<context:component-scan base-package="com.xuyuan.ssh" />
+	事务控制在服务层:为了方便事务操作，可能一组业务需要操作多个DAO，那么显然不能在DAO层做事务，而在业务层做事务是非常合适的，也符合逻辑.
+
+	扫描多个包时，以逗号分隔
+	*********************************************************** -->
+	<context:component-scan base-package="com.xuyuan.ssh">
+	</context:component-scan>
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -34,13 +60,22 @@
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</prop>
+				<!-- 
+ 	           	Hibernate4 EHCache : http://www.javacraft.org/2012/03/migrate-to-hibernate-4-ehcache.html
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+				 -->
 			</props>
 		</property>
+		<!-- SSH全注解实例映射:entity子包下的类 + 分页 + ExtJS3-->
 		<property name="packagesToScan">
 			<list>
-				<value>com.xuyuan.ssh.entity.*</value>		<!-- SSH全注解实例映射:entity子包下的类 -->
-				<value>com.xuyuan.extjs3.*.bean</value>		<!-- ExtJS3实体类映射:model包下的类 -->
-				<value>com.xuyuan.pager.entity</value>		<!-- 分页 -->
+				<value>com.xuyuan.ssh.entity.*</value>
+				<!-- <value>com.xuyuan.pager.entity</value> -->
+				<value>com.xuyuan.extjs3.*.bean</value>
 			</list>
 		</property>
 	</bean>
@@ -48,33 +83,31 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
+	<!--
+	业务层:<aop:advisor pointcut="execution(* com.xuyuan.ssh.service..*Manager.*(..))" advice-ref="txAdvice" />
+	Dao层:<aop:advisor pointcut="execution(* com.xuyuan.ssh.common.hibernate.HibernateDao.*(..))" advice-ref="txAdvice" />
+	HibernateDao没加上事务,则CRUD操作不会入库?? 事务失效的原因是?TODO:
+	-->
 	<aop:config proxy-target-class="true">
-		<aop:advisor pointcut="execution(* com.xuyuan.ssh.common.hibernate.HibernateDao.*(..))" advice-ref="txAdvice" />		<!-- 没加上,则CRUD操作不会入库[HibernateDao]??给业务类加上事务就可以了,为什么Dao也要加事务?? -->
-		<!-- <aop:advisor pointcut="execution(* com.xuyuan.ssh.service..*Manager.*(..))" advice-ref="txAdvice" />  -->
-
-		<aop:advisor pointcut="execution(* com.xuyuan.extjs3..dao.*.*(..))" advice-ref="txAdvice" />
-		<aop:advisor pointcut="execution(* com.xuyuan.pager.dao.*.*(..))" advice-ref="txAdvice" />
-		<aop:advisor pointcut="execution(* com.xuyuan.pager_ftl.service..*.*(..))" advice-ref="txAdvice" />
-		<!-- <aop:advisor pointcut="execution(* com.xuyuan.chart..dao.*.*(..))" advice-ref="txAdvice" />  -->
+		<aop:advisor pointcut="execution(* com.xuyuan.ssh.service..*Manager.*(..))" advice-ref="txAdvice" />
+		<aop:advisor pointcut="execution(* com.xuyuan.ssh.common.hibernate.HibernateDao.*(..))" advice-ref="txAdvice" />
+		<aop:advisor pointcut="execution(* com.xuyuan.extjs3..service.*.*(..))" advice-ref="txAdvice" />
 	</aop:config>
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">		<!-- tx:advice中不加transaction-manager="transactionManager"也是可以的. -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" />
 			<tx:method name="find*" read-only="true" />
 			<tx:method name="query*" read-only="true" />
 			<tx:method name="is*" read-only="true" />
-			<tx:method name="*" propagation="REQUIRED" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception"/>
 		</tx:attributes>
 	</tx:advice>
 
 
 
 	<!-- **********************************************************
-	以下配置因为没有被component-scan所指定的目录自动扫描,需要手动配置
-
-	整合applicationContext_hib.xml部分,Level/Sort相关对象手动注入,
-	因为没有被自动扫描,所以不用注解方式注册.并且事务控制采用统一的AOP方式
-	新增的关于extjs3的配置:实体类的packagesToScan, aop:config事务控制
+	以下配置因为没有被component-scan所指定的目录自动扫描,需要手动配置,不用注解方式注册.并且事务控制采用统一的AOP方式
 	*********************************************************** -->
 
 	<!-- SSH+ExtJS + GRID DEMO -->
@@ -108,45 +141,7 @@
         <property name="service" ref="treeService"></property>
     </bean>
 
-    <!-- pager分页 -->
-    <!-- pager-taglib分页 -->
-	<bean id="pageUserDao" class="com.xuyuan.tag.pager_taglib.dao.UserDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    <bean name="pagerUserAction" class="com.xuyuan.tag.pager_taglib.action.UserAction" scope="prototype">
-        <property name="userDaoImpl" ref="pageUserDao" />
-    </bean>
-
-    <!-- 分页1:带查询条件 -->
-   	<bean id="booksDao" class="com.xuyuan.pager.dao.BooksDao">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    <bean id="booksService" class="com.xuyuan.pager.service.BooksService">
-        <property name="booksDao" ref="booksDao" />
-    </bean>
-    <bean id="pagerService" class="com.xuyuan.pager.model.PagerService"/>
-    <bean id="booksAction" class="com.xuyuan.pager.action.BookAction" scope="prototype">
-        <property name="booksService" ref="booksService" />
-        <property name="pagerService" ref="pagerService" />
-    </bean>
-
-    <!-- 分页2:不带查询条件 -->
-    <bean id="bookpage" class="com.xuyuan.pager.action.PageAction" scope="prototype">
-        <property name="booksService" ref="booksService" />
-    </bean>
-
-    <!-- 分页3:采用FreeMarker: 持久层操作采用HibernateTemplate -->
-    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
-    	<property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    <bean id="baseService" class="com.xuyuan.pager_ftl.service.hibernate.BaseService">
-    	<property name="hibernateTemplate" ref="hibernateTemplate"/>
-	</bean>
-	<bean id="bookService" class="com.xuyuan.pager_ftl.service.hibernate.BookPageService">
-	</bean>
-	<bean id="bookPageAction" class="com.xuyuan.pager_ftl.action.hibernate.BookPageAction">
-		<property name="bookService" ref="bookService" />
-	</bean>
+    
 
     <!-- 图表chart: 持久层操作采用Spring提供的JdbcTemplate -->
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

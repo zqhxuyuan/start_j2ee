@@ -1,0 +1,64 @@
+<ehcache> 
+    <diskStore path="java.io.tmpdir"/> 
+    <defaultCache 
+    	maxElementsInMemory="1000" 
+        eternal="false" 
+        timeToIdleSeconds="120" 
+        timeToLiveSeconds="120" 
+        overflowToDisk="true" 
+        />
+    <cache name="DEFAULT_CACHE"  
+        maxElementsInMemory="10000"  
+        eternal="false"  
+        timeToIdleSeconds="300000"  
+        timeToLiveSeconds="600000"  
+        overflowToDisk="true"  
+        />
+            
+    <!-- EHCache Event Listener -->        
+ 	<cache name="sampleCache3"
+           maxElementsInMemory="10"
+           eternal="false"
+           overflowToDisk="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="1"
+           memoryStoreEvictionPolicy="LFU">
+           <cacheEventListenerFactory class="com.xuyuan.cache.ehcache.helloworld.CacheEvtLstnFac" properties=""/>
+     </cache>
+     
+     <!-- EHCache Cluster:RMI -->
+     <cache name="sampleDistributedCache2" 
+    	maxElementsInMemory="1000" 
+    	eternal="false"      
+        timeToIdleSeconds="100000" 
+        timeToLiveSeconds="100000" 
+        overflowToDisk="false">      
+        <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />      
+    </cache>    
+    
+    <!-- EHCache TerraCotta Cluster -->
+    <!-- TerraCotta Server Config,必须先启动TerraCotta服务器 -->
+    <!-- 
+    <cache name="sampleTerracottaCache"
+     	maxEntriesLocalHeap="1000"
+     	eternal="false"
+     	timeToIdleSeconds="3600"
+     	timeToLiveSeconds="1800"
+     	overflowToDisk="false">
+    	<terracotta/>
+  	</cache>
+  	<terracottaConfig url="localhost:9510"/>
+  	 -->
+    
+    <!-- EHCache Web 页面缓存主要用Filter过滤器对请求的url进行过滤，如果该url在缓存中出现，那么页面数据就从缓存对象中获取 -->
+    <cache name="SimplePageCachingFilter" 
+        maxElementsInMemory="10000" 
+        eternal="false"
+        overflowToDisk="false" 
+        timeToIdleSeconds="900" 
+        timeToLiveSeconds="1800"
+        memoryStoreEvictionPolicy="LFU" />
+        
+</ehcache>

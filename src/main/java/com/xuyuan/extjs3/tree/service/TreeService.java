@@ -6,11 +6,12 @@ import com.xuyuan.extjs3.tree.bean.Exttree;
 
 public interface TreeService<T> {
 
-	//通过sort对象去查询子结点list
-	public List<T> getTreeListByParentId(T entity) throws Exception;
-
 	//通过entity对象查询子对象进行递归变量查找
 	public void getTreeByParentId2Recursion(T entity) throws Exception;
+
+	//通过sort对象去查询子结点list
+	//public List<T> getTreeListByParentId(T entity) throws Exception;
+	//public void getTreeListByParentId(List<T> children, T entity) throws Exception;
 
 
     public Exttree findById(Long id) throws Exception;

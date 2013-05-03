@@ -6,6 +6,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
        xsi:schemaLocation="
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -16,10 +18,14 @@
             http://www.springframework.org/schema/jdbc
             http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
             http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/security 
+        	http://www.springframework.org/schema/security/spring-security-3.0.xsd
+        	http://www.directwebremoting.org/schema/spring-dwr 
+	        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
 
 	<!-- Struts2+Spring -->
-	<!-- if ActionSupport DI by Spring,in struts.xml,action's class refere here's id's value -->
+	<!-- if ActionSupport DI by Spring,in struts.xml,action's class refere this id's value -->
 	<bean id="editService" class="com.xuyuan.struts2.formtags.service.EditServiceInMemory" />
 	<bean id="editAction" class="com.xuyuan.struts2.formtags.action.EditAction" >
 		<property name="editService" ref="editService" />
@@ -36,8 +42,9 @@
 	</bean>
 	
 	<!-- Struts2+JSON -->
-	<bean id="jsonExample1" class="com.xuyuan.struts2.json.action.JSONExampleAction" scope="prototype"/>
-
+	<!--
+	<bean id="jsontest" class="com.xuyuan.struts2.json.action.Struts2JSONPluginTestAction" scope="prototype"/>
+	-->
 	
 	<!-- 日志切面类,该切面类上定义了@Aspect,每个定义了@Aspect的切面类如果想要进行AOP切入,都需要在这里定义bean.如果业务需求不需要AOP,则注释该代码即可 -->
 	<!-- 
@@ -47,4 +54,66 @@
 	    <property name="order" value="100"/>  
 	</bean>
 	 -->
+	 
+	<!-- dwr + spring -->
+	<bean id="dwr_spring" class="com.xuyuan.commons.dwr.DwrSpring"/>
+	
+	<!-- ++++++++++++++++++++++SpringRecipes++++++++++++++++++++++ -->
+	<!-- 05:SpringSecurity Board -->
+	<tx:annotation-driven />
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+        <property name="dataSource" ref="dataSource" /> 
+    </bean>
+	<bean id="messageBoardService" class="com.xuyuan.spring3.recipes.security.board.service.MessageBoardServiceImpl">
+		<!-- 5-5. Securing Method Invocations : Embedding a Security Interceptor   -->
+		<!-- 
+		<security:intercept-methods access-decision-manager-ref="accessDecisionManager"> 
+            <security:protect method="com.xuyuan.spring3.recipes.security.board.service.MessageBoardService.listMessages" 		access="ROLE_USER,ROLE_GUEST" /> 
+            <security:protect method="com.xuyuan.spring3.recipes.security.board.service.MessageBoardService.postMessage" 		access="ROLE_USER" /> 
+            <security:protect method="com.xuyuan.spring3.recipes.security.board.service.MessageBoardService.deleteMessage" 		access="ROLE_ADMIN,IP_LOCAL_HOST" /> 
+            <security:protect method="com.xuyuan.spring3.recipes.security.board.service.MessageBoardService.findMessageById" 	access="ROLE_USER,ROLE_GUEST" /> 
+        </security:intercept-methods>
+         -->
+         <!-- 5-7. Maintaining ACLs for Domain Objects -->
+         <property name="mutableAclService" ref="aclService" />
+	</bean>
+	
+	<!-- 6-1. Accessing Spring in Generic Web Applications -->
+	<bean id="cityService" class="com.xuyuan.spring3.recipes.intergratweb.servlet.CityServiceImpl"> 
+        <property name="distanceMap"> 
+            <map> 
+                <entry key="New York"> 
+                    <map> 
+                        <entry key="London" value="5574" /> 
+                        <entry key="Beijing" value="10976" /> 
+                    </map> 
+                </entry> 
+            </map> 
+        </property> 
+    </bean>
+    <bean id="distance" class="com.xuyuan.spring3.recipes.intergratweb.servlet.DistanceHttpRequestHandler"> 
+        <property name="cityService" ref="cityService"/> 
+    </bean> 
+    <bean id="cityServiceRequestAuditor" class="com.xuyuan.spring3.recipes.intergratweb.filter.CityServiceRequestAuditor" /> 
+    <bean id="cityServiceRequestFilter" class="com.xuyuan.spring3.recipes.intergratweb.filter.CityServiceRequestFilter"> 
+        <property name="cityServiceRequestAuditor" ref="cityServiceRequestAuditor" /> 
+    </bean>
+    
+    <!-- 6-4. Integrating Spring with JSF -->
+    <!-- centralize bean declaration under the management of Spring’s IoC container -->
+    <bean id="distanceBean" class="com.xuyuan.spring3.recipes.intergratweb.jsf.DistanceBean" scope="request"> 
+    	<property name="cityService" ref="cityService" /> 
+	</bean>
+	
+	<!-- Configuring DWR in Spring’s Bean Configuration File -->
+	<!-- 直接创建对象实例，调用方法，报NullPointerException，因为Map没有初始化数据。实际中业务类调用不采用Map而是从DB获取，没有这个问题 -->
+	<!-- 
+	<dwr:configuration />
+	<bean id="cityService2" class="com.xuyuan.spring3.recipes.intergratweb.servlet.CityServiceImpl"> 
+        <dwr:remote javascript="CityService"> 
+            <dwr:include method="findDistance" /> 
+        </dwr:remote>
+    </bean>
+    -->
+    
 </beans>

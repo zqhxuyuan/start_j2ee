@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!--  标准MBean管理
+	MBeanExporter会查找本地MBean Server，指定的探测模式autodetectModeName为AUTODETECT_ALL，
+	无需手动向MBean Server进行注册，便能管理配置的MBean对象“mydomain:myobj=MyObjectMBean” -->
+	<bean id="mbServer" class="org.springframework.jmx.export.MBeanExporter">  
+        <property name="autodetectModeName">  
+            <value>AUTODETECT_ALL</value>  
+        </property>  
+    </bean>  
+    <bean name="mydomain:myobj=MyObjectMBean" class="com.xuyuan.j2ee.jmx.standardbeans._2.MyObject">  
+        <property name="id" value="90000000001" />  
+        <property name="name" value="zqhxuyuan" />  
+    </bean>      
+</beans>

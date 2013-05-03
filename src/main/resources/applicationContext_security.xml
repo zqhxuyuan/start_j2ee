@@ -1,0 +1,89 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security" 
+    xmlns:beans="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+        http://www.springframework.org/schema/security 
+        http://www.springframework.org/schema/security/spring-security-3.0.xsd"> 
+ 
+    <!-- <http auto-config="true"> --> 
+    <!-- <http>  --> 
+    <http access-decision-manager-ref="accessDecisionManager">
+    	<!-- securing URL access in the web layer 控制URL访问 -->
+    	<!--  
+        <intercept-url pattern="/messageList*" 		access="ROLE_USER,ROLE_ANONYMOUS" /> 
+        <intercept-url pattern="/messagePost*" 		access="ROLE_USER" /> 
+        <intercept-url pattern="/messageDelete*" 	access="ROLE_ADMIN,IP_LOCAL_HOST" />
+         -->
+		<http-basic />
+        <form-login login-page="/springmvc/login.jsp" default-target-url="/messageList.html" authentication-failure-url="/springmvc/login.jsp?error=true"/>
+        <logout logout-success-url="/springmvc/login.jsp" />	
+       	<anonymous username="guest" granted-authority="ROLE_GUEST" />
+       	<remember-me />
+    </http>
+    
+    <!--
+    5-3. Authenticating Users
+    1.内存方式
+    2.配置方式
+    3.默认库表(users,authorities)
+    4.自定义表(自己写SQL)
+    -->
+    <authentication-manager> 
+		<authentication-provider> 
+			<!--
+			<user-service> 
+				<user name="admin" password="secret" 	authorities="ROLE_ADMIN,ROLE_USER" /> 
+				<user name="user1" password="111111" 	authorities="ROLE_USER" />
+				<user name="user2" password="2222" 		disabled="true" authorities="ROLE_USER" /> 
+			</user-service> 
+			<user-service properties="/spring/5/users.properties" />
+			-->
+			<jdbc-user-service data-source-ref="dataSource" 
+				users-by-username-query="SELECT username, password, 'true' as enabled FROM user WHERE  username=?" 
+    			authorities-by-username-query="SELECT username, role as authorities FROM user, user_role WHERE userid = id and username=?"
+    			cache-ref="userCache"/>
+		</authentication-provider> 
+    </authentication-manager> 
+    
+    <!-- Caching User Details -->
+    <beans:bean id="userCache" class="org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache"> 
+        <beans:property name="cache" ref="userEhCache" /> 
+    </beans:bean> 
+    <beans:bean id="userEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean"> 
+        <beans:property name="cacheManager" ref="cacheManager" /> 
+        <beans:property name="cacheName" value="userCache" /> 
+    </beans:bean>
+    <!-- 如果在applicationContext_ssh.xml中开启Hibernate的缓存配置，会抛出已经存在EHCache的异常，解决办法这里指定另外的配置文件 -->
+    <beans:bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" scope="singleton">
+    	<beans:property name="configLocation" value="classpath:ehcache-spring.xml" />
+    	<beans:property name="shared" value="true"/>
+    </beans:bean>
+    
+    <!-- 5-4. Making Access Control Decisions:自定义IPVoter -->
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased"> 
+		<beans:property name="decisionVoters"> 
+			<beans:list> 
+				<beans:bean class="org.springframework.security.access.vote.RoleVoter" /> 
+				<beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" /> 
+				<beans:bean class="com.xuyuan.spring3.recipes.security.IpAddressVoter" /> 
+			</beans:list> 
+		</beans:property> 
+	</beans:bean>
+	
+	<!-- 5-5. Securing Method Invocations : Securing Methods with Pointcuts   -->
+	<!-- 
+	<global-method-security access-decision-manager-ref="accessDecisionManager"> 
+		<protect-pointcut expression= "execution(* com.xuyuan.spring3.recipes.security.board.service.*Service.list*(..))" 	access="ROLE_USER,ROLE_GUEST" /> 
+		<protect-pointcut expression= "execution(* com.xuyuan.spring3.recipes.security.board.service.*Service.post*(..))" 	access="ROLE_USER" /> 
+		<protect-pointcut expression= "execution(* com.xuyuan.spring3.recipes.security.board.service.*Service.delete*(..))" access="ROLE_ADMIN,IP_LOCAL_HOST" />
+		<protect-pointcut expression= "execution(* com.xuyuan.spring3.recipes.security.board.service.*Service.find*(..))" 	access="ROLE_USER,ROLE_GUEST" /> 
+	</global-method-security>
+	-->
+	
+	<!-- Securing Methods with Annotations -->
+	<!-- <global-method-security secured-annotations="enabled" access-decision-manager-ref="accessDecisionManager" /> -->
+	
+	<!-- 5-7. Handling Domain Object Security -->
+	<global-method-security secured-annotations="enabled" access-decision-manager-ref="aclAccessDecisionManager" /> 
+</beans:beans>

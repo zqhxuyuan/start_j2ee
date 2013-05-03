@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>HighChart</title>
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/Charts/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+function setType(type){
+	renderChart(type);
+}
+
+$(function () {
+    $(document).ready(function() {
+    	renderChart('line');
+    });	
+});
+    
+function renderChart(chartType){
+	var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            type: chartType
+        },
+        title: {
+            text: 'Monthly Average Temperature',
+            x: -20 
+        },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'Temperature (°C)'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value +'°'
+                }
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+        	crosshairs: true,
+            shared: true
+            /*
+            formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+ this.x +': '+ this.y +'°C';
+            }
+        	*/ 
+        },
+        legend: { 							//显示图例
+            layout: 'vertical',
+            backgroundColor: '#FFFFFF',
+            align: 'left', //left  right
+            verticalAlign: 'top',
+            x: -10, //align:right
+            y: 100,
+            x: 100,	//align:left
+            y: 70,
+            borderWidth: 0,
+            floating: true,
+            shadow: true
+        },
+        plotOptions: { 	
+            line: {
+                dataLabels: {
+                    enabled: true			//显示数值
+                },	
+                enableMouseTracking: true	//鼠标滑过显示tooltip
+            },
+        	column: {
+            	pointPadding: 0.2,
+            	borderWidth: 0
+        	},
+        	spline: {
+                marker: {
+                    radius: 4,
+                    lineColor: '#666666',
+                    lineWidth: 1
+                }
+            }
+        },
+        series: [{
+            name: 'Tokyo',
+            marker: {
+                symbol: 'square'
+            },
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
+                y: 26.5,
+                marker: {
+                    symbol: 'url(http://www.highcharts.com/demo/gfx/sun.png)'
+                }
+           	}, 23.3, 18.3, 13.9, 9.6]
+        }, {
+            name: 'New York',
+            marker: {
+                symbol: 'diamond'
+            },
+            data: [{
+                y: 0.2,
+                marker: {
+                    symbol: 'url(http://www.highcharts.com/demo/gfx/snow.png)'
+                }
+            }, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+        }]
+    });
+}
+
+</script>
+</head>
+<body>
+	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	<p>
+	<input type="button" value="坐标图" onclick="setType('line')"/>
+	<input type="button" value="柱状图" onclick="setType('column')"/>
+	<input type="button" value="Bar图" onclick="setType('bar')"/>
+	<input type="button" value="区域图" onclick="setType('area')"/>
+	<input type="button" value="点状图" onclick="setType('scatter')"/>
+	<input type="button" value="spline图" onclick="setType('spline')"/>
+</body>
+</html>

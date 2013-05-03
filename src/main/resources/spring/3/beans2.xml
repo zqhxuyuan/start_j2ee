@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<!-- 使用XML方式，不使用AspectJ注解.类上的@Aspect以及其他AOP注解不会起作用 -->
+	<!-- <aop:aspectj-autoproxy /> -->
+	
+	<!-- 3-1. Enabling AspectJ Annotation Support in Spring -->
+    <bean id="arithmeticCalculator" class="com.xuyuan.spring3.recipes.aopaspectj.t1.ArithmeticCalculatorImpl" />
+    <bean id="unitCalculator" class="com.xuyuan.spring3.recipes.aopaspectj.t1.UnitCalculatorImpl" />
+    
+    <!-- 3-2. Declaring Aspects with AspectJ Annotations -->
+    <bean id="calculatorLoggingAspect" class="com.xuyuan.spring3.recipes.aopaspectj.t2.CalculatorLoggingAspect" />
+    
+    <!-- 3-4. Specifying Aspect Precedence -->
+    <bean id="calculatorValidationAspect" class="com.xuyuan.spring3.recipes.aopaspectj.t4.CalculatorValidationAspect" />
+    
+    <!-- 3-5. Reusing Pointcut Definitions -->
+    <!-- 3-6. Writing AspectJ Pointcut Expressions -->
+    <bean id="calculatorLoggingAspect2" class="com.xuyuan.spring3.recipes.aopaspectj.t5.CalculatorLoggingAspect" />
+    
+    <!-- 3-7. Introducing Behaviors to Your Beans -->
+    <!-- 3-8. Introducing States to Your Beans -->
+    <bean id="calculatorIntroduction" class="com.xuyuan.spring3.recipes.aopaspectj.t7.CalculatorIntroduction" />
+    
+    <!-- 3-9. Declaring Aspects with XML-Based Configurations -->
+    <aop:config>
+        <aop:pointcut id="loggingOperation" expression="within(com.xuyuan.spring3.recipes.aopaspectj.t1.ArithmeticCalculator+) || within(com.xuyuan.spring3.recipes.aopaspectj.t1.UnitCalculator+)" />
+        <aop:pointcut id="validationOperation" expression="within(com.xuyuan.spring3.recipes.aopaspectj.t1.ArithmeticCalculator+) || within(com.xuyuan.spring3.recipes.aopaspectj.t1.UnitCalculator+)" />
+
+        <aop:aspect id="loggingAspect" ref="calculatorLoggingAspect">
+            <aop:before pointcut-ref="loggingOperation" method="logBefore" />
+            <aop:after-returning pointcut-ref="loggingOperation" returning="result" method="logAfterReturning" />
+            <aop:after-throwing pointcut-ref="loggingOperation" throwing="e" method="logAfterThrowing" />
+            <aop:around pointcut-ref="loggingOperation" method="logAround" />
+        </aop:aspect>
+
+        <aop:aspect id="validationAspect" ref="calculatorValidationAspect">
+            <aop:before pointcut-ref="validationOperation" method="validateBefore" />
+        </aop:aspect>
+
+        <aop:aspect id="introduction" ref="calculatorIntroduction">
+            <aop:declare-parents types-matching="com.xuyuan.spring3.recipes.aopaspectj.t1.ArithmeticCalculatorImpl" implement-interface="com.xuyuan.spring3.recipes.aopaspectj.t7.MaxCalculator" default-impl="com.xuyuan.spring3.recipes.aopaspectj.t7.MaxCalculatorImpl" />
+            <aop:declare-parents types-matching="com.xuyuan.spring3.recipes.aopaspectj.t1.ArithmeticCalculatorImpl" implement-interface="com.xuyuan.spring3.recipes.aopaspectj.t7.MinCalculator" default-impl="com.xuyuan.spring3.recipes.aopaspectj.t7.MinCalculatorImpl" />
+            <aop:declare-parents types-matching="com.xuyuan.spring3.recipes.aopaspectj.t1.*CalculatorImpl" implement-interface="com.xuyuan.spring3.recipes.aopaspectj.t8.Counter" default-impl="com.xuyuan.spring3.recipes.aopaspectj.t8.CounterImpl" />
+            <aop:after pointcut="execution(* com.xuyuan.spring3.recipes.aopaspectj.t1.*Calculator.*(..)) and this(counter)" method="increaseCount" />
+        </aop:aspect>
+    </aop:config>
+</beans>

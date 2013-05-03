@@ -14,6 +14,10 @@ import com.xuyuan.struts2.annotations.model.Person;
 public class RegisterAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="personBean"
+	 * @uml.associationEnd  
+	 */
 	private Person personBean;
 
 	@Action("register-input")
@@ -25,9 +29,17 @@ public class RegisterAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="personBean"
+	 */
 	public Person getPersonBean() {
 		return personBean;
 	}
+	/**
+	 * @param person
+	 * @uml.property  name="personBean"
+	 */
 	public void setPersonBean(Person person) {
 		personBean = person;
 	}

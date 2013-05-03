@@ -10,9 +10,19 @@ import com.opensymphony.xwork2.Preparable;
 
 public class LoginAction extends StrutsAction implements Preparable{
 
+	/**
+	 * @uml.property  name="username"
+	 */
 	private String username; //登录用户名
+	/**
+	 * @uml.property  name="password"
+	 */
 	private String password; //登录密码
 	
+	/**
+	 * @uml.property  name="userManager"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private UserManager userManager; 
 	
@@ -66,18 +76,34 @@ public class LoginAction extends StrutsAction implements Preparable{
 		clearErrorsAndMessages();
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="username"
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * @param username
+	 * @uml.property  name="username"
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="password"
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * @param password
+	 * @uml.property  name="password"
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}

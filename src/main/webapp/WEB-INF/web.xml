@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4" 
-	xmlns="http://java.sun.com/xml/ns/j2ee" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+<web-app version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>start_j2ee</display-name>
-	
-	<listener>  
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>  
+
+	<listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
-     
-    <!-- Spring3+Hibernate/JPA+Struts2 -->
+
+    <!-- Spring3 + Hibernate/JPA/iBatis + Struts2 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:applicationContext_beans.xml
-			classpath:applicationContext_ds.xml
 			classpath:applicationContext_ssh.xml
-			classpath:applicationContext_ssi.xml
-			classpath:applicationContext_qtz.xml
+			classpath:applicationContext_qtz_memory.xml
+			classpath:applicationContext_security.xml
+			classpath:applicationContext_acl.xml
+			classpath:applicationContext_ws.xml
+			<!-- 放在dispatcher-servlet里引入 classpath:applicationContext_webflow.xml -->
 		</param-value>
 	</context-param>
-
+	
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 	<!-- Character Encoding filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -51,27 +54,84 @@
 		<filter-name>struts2Filter</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
 	</filter>
-
+	
+	<!-- SpringSecurity Filter -->
+	<filter> 
+        <filter-name>springSecurityFilterChain</filter-name> 
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
+    </filter> 
+ 
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	<filter-mapping> 
+        <filter-name>springSecurityFilterChain</filter-name> 
+        <url-pattern>/*</url-pattern> 
+    </filter-mapping>
 	<filter-mapping>
 		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
 		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
-
 	<filter-mapping>
 		<filter-name>struts2CleanUpFilter</filter-name>
 		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
-
 	<filter-mapping>
 		<filter-name>struts2Filter</filter-name>
 		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
 
+	<!-- 自动缓存js和css或者image等文件 -->
+	<filter>
+		 <filter-name>cache-filter</filter-name>
+		 <filter-class>com.xuyuan.cache.impl.CacheFilter</filter-class>
+		 <init-param>
+            <param-name>cache-time</param-name>
+            <param-value>86000</param-value>
+        </init-param>
+	</filter>
+	<filter-mapping>
+        <filter-name>cache-filter</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>cache-filter</filter-name>
+        <url-pattern>*.css</url-pattern>
+	</filter-mapping>
+
+	<!-- OSCache和EHCache可以选择一个测试cache/cache.jsp -->
+	<!-- OSCache过滤器 -->
+	<filter>
+	    <filter-name>CacheFilter</filter-name>
+	    <filter-class>com.opensymphony.oscache.web.filter.CacheFilter</filter-class>
+	    <init-param>
+	        <param-name>time</param-name>
+	        <param-value>600</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>scope</param-name>
+	        <param-value>session</param-value>
+	    </init-param>
+	</filter>
+	<filter-mapping>
+	    <filter-name>CacheFilter</filter-name>
+	    <url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	
+	<!-- EHCache缓存过滤器 -->
+	<!-- 
+	<filter>
+	    <filter-name>ehCacheFilter</filter-name>
+	    <filter-class>net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>ehCacheFilter</filter-name>
+	    <url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	 -->
+	
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 	<!--Spring的ApplicationContext 载入 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -81,48 +141,208 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
-	
-	<!-- SpringMVC控制器,命名规则:ServletName-servlet.xml -->
-	<servlet>  
-        <servlet-name>dispatcher</servlet-name>  
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
-        <!-- 
-        <init-param>  
-            <param-name>contextConfigLocation</param-name>  
-            <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>  
-        </init-param>
-        -->  
-        <load-on-startup>1</load-on-startup>  
-    </servlet>  
-    <servlet-mapping>  
-        <servlet-name>dispatcher</servlet-name>  
-        <url-pattern>*.do</url-pattern>  
-    </servlet-mapping>
 
-	<!-- DWR -->
+	<!-- Spring MVC -->
+	<servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <!-- <url-pattern>/</url-pattern>  --> <!-- 项目中有Struts，会导致经过Struts的URL也经过SpringMVC的处理。如果项目只采用SpringMVC，则可以使用/代表全部URL -->
+       	<url-pattern>*.html</url-pattern>
+        <url-pattern>/flows/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Spring+Hessian WS -->
+    <servlet>
+        <servlet-name>hessian</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>hessian</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+     
+    <!-- Spring Web Flow 可以都放在上面的配置中，配置多个url-pattern  -->
+    <!--
+    <servlet> 
+		<servlet-name>webflow</servlet-name> 
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> 
+	</servlet> 
+    <servlet-mapping> 
+        <servlet-name>webflow</servlet-name> 
+         <url-pattern>/flows/*</url-pattern>
+    </servlet-mapping>
+    -->
+    
+    <!-- Spring Portlet MVC -->
+    <!-- 
+    <servlet> 
+        <servlet-name>view</servlet-name> 
+        <servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class> 
+    </servlet> 
+    <servlet-mapping> 
+        <servlet-name>view</servlet-name> 
+        <url-pattern>/WEB-INF/servlet/view</url-pattern> 
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>weather</servlet-name>
+        <servlet-class>org.apache.pluto.container.driver.PortletServlet</servlet-class>
+		<init-param>
+	  		<param-name>portlet-name</param-name>
+	  		<param-value>weather</param-value>
+		</init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+	<servlet-mapping>
+        <servlet-name>weather</servlet-name>
+        <url-pattern>/PlutoInvoker/weather</url-pattern>
+    </servlet-mapping>
+     -->
+    
+    <servlet>
+    	<servlet-name>MyDispatchServlet</servlet-name>
+    	<servlet-class>com.xuyuan.j2ee.mvc.DispatchServlet</servlet-class>
+    </servlet>  
+    <servlet-mapping> 
+        <servlet-name>MyDispatchServlet</servlet-name> 
+        <url-pattern>*.mvc</url-pattern>
+    </servlet-mapping>
+  
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!--HIBERNATE Tutorial BEGIN-->
+    <listener>
+        <listener-class>com.xuyuan.hibernate3.tutorial.util.SessionFactoryInitializer</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>Event Manager</servlet-name>
+        <servlet-class>com.xuyuan.hibernate3.tutorial.EventManagerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Event Manager</servlet-name>
+        <url-pattern>/eventmanager</url-pattern>
+    </servlet-mapping>
+    <!-- 
+    <filter>
+        <filter-name>Session Interceptor</filter-name>
+        <filter-class>com.xuyuan.hibernate3.tutorial.util.SessionInterceptor</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Session Interceptor</filter-name>
+        <servlet-name>Event Manager</servlet-name>
+    </filter-mapping>
+    -->
+    <!--HIBERNATE Tutorial ISEND-->
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  	<servlet>
+    	<servlet-name>DataServlet</servlet-name>
+    	<servlet-class>com.xuyuan.j2ee.servlet.weibo.DataServlet</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+    	<servlet-name>DataServlet</servlet-name>
+    	<url-pattern>/DataServlet</url-pattern>
+  	</servlet-mapping>
+  	
+  	<!-- Spring Integration Web Framework:Servlet Filter -->
+  	<servlet> 
+        <servlet-name>distance</servlet-name> 
+        <!-- <servlet-class>com.xuyuan.spring3.recipes.intergratweb.servlet.DistanceServlet</servlet-class> --> 
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class> 
+    </servlet> 
+    <servlet-mapping> 
+        <servlet-name>distance</servlet-name> 
+        <url-pattern>/distance</url-pattern> 
+    </servlet-mapping>
+    <filter> 
+        <filter-name>cityServiceRequestFilter</filter-name> 
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param> 
+            <param-name>targetFilterLifecycle</param-name> 
+            <param-value>true</param-value> 
+        </init-param> 
+    </filter> 
+	<filter-mapping> 
+        <filter-name>cityServiceRequestFilter</filter-name> 
+        <servlet-name>distance</servlet-name> 
+    </filter-mapping>
+    
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- JSF -->
+    <listener> 
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class> 
+    </listener>
+    <listener> 
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> 
+    </listener> 
+    <servlet> 
+        <servlet-name>faces</servlet-name> 
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class> 
+    </servlet> 
+    <servlet-mapping> 
+        <servlet-name>faces</servlet-name> 
+        <url-pattern>*.faces</url-pattern> 
+    </servlet-mapping>
+    
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- DWR v1: uk.ltd.getahead.dwr.DWRServlet  v2: org.directwebremoting.servlet.DwrServlet -->
+	<!-- Configuring DWR in Spring’s Bean Configuration File.不需要dwr.xml,而是配置在Spring中 -->
+	<!--
+	<servlet> 
+        <servlet-name>dwr-invoker</servlet-name> 
+        <servlet-class>org.directwebremoting.spring.DwrSpringServlet</servlet-class> 
+    </servlet>
+    -->
 	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
-		<servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
 		<init-param>
 			<param-name>debug</param-name>
 			<param-value>true</param-value>
 		</init-param>
 		<init-param>
-			<param-name>allowGetForSafariButMakeForgeryEasier</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
+           <param-name>allowScriptTagRemoting</param-name>
+           <param-value>true</param-value>
+       	</init-param>
+		<init-param>
+           <param-name>crossDomainSessionSecurity</param-name>
+           <param-value>false</param-value>
+       	</init-param>
+       	<init-param>
+           <param-name>allowGetForSafariButMakeForgeryEasier</param-name>
+           <param-value>true</param-value>
+       	</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>dwr-invoker</servlet-name>
 		<url-pattern>/dwr/*</url-pattern>
 	</servlet-mapping>
-	
+    
+    <servlet> 
+        <servlet-name>cxf</servlet-name> 
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class> 
+        <load-on-startup>1</load-on-startup> 
+    </servlet> 
+    <servlet-mapping> 
+        <servlet-name>cxf</servlet-name> 
+        <url-pattern>/cxf/*</url-pattern> 
+    </servlet-mapping>
+    
+    <!-- OSCache -->
+    <taglib>
+		<taglib-uri>oscache</taglib-uri>
+		<taglib-location>/WEB-INF/oscache.tld</taglib-location>
+	</taglib>
+    
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 	<!-- session超时定义,单位为分钟 -->
 	<session-config>
 		<session-timeout>10</session-timeout>
 	</session-config>
-	
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

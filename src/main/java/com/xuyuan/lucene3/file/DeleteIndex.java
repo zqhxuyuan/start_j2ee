@@ -13,7 +13,7 @@ import org.apache.lucene.util.Version;
 
 /**
  * Lucene 3.0+ 删除索引
- *  http://langhua9527.iteye.com/blog/582347
+ * http://langhua9527.iteye.com/blog/582347
  */
 public class DeleteIndex {
 

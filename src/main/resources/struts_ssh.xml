@@ -13,11 +13,9 @@
 		<interceptors>
 			<interceptor name="loginInterceptor"  class="com.xuyuan.ssh.common.interceptor.LoginInterceptor" />	
 			<interceptor-stack name="crudStack">
-				<!-- 
 				<interceptor-ref name="loginInterceptor">						
 						<param name="excludeMethods">welcome,login</param>
 				</interceptor-ref>
-				 -->
 				<interceptor-ref name="paramsPrepareParamsStack" />
 			</interceptor-stack>
 		</interceptors>

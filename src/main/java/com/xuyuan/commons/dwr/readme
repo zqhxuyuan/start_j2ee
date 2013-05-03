@@ -1,0 +1,3 @@
+web.xml 配置DwrServlet
+dwr.xml 配置服务类
+页面引用dwr.xml的javascript值.js

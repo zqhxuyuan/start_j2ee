@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+ 
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"> 
+        <property name="brokerURL" value="tcp://localhost:61616" /> 
+    </bean> 
+ 
+  	<!-- Listening for JMS Messages with POJOs -->
+  	<bean id="mailListener" class="com.xuyuan.j2ee.jms.post.mdp.MailListenerPOJOConvert" />
+  	<!-- Converting JMS Messages -->
+  	<bean id="mailMessageConverter" class="com.xuyuan.j2ee.jms.post.convert.MailMessageConverter" />
+         
+    <bean id="mailListenerAdapter" class="org.springframework.jms.listener.adapter.MessageListenerAdapter"> 
+        <property name="delegate" ref="mailListener" /> 
+        <property name="messageConverter" ref="mailMessageConverter" />
+    </bean> 
+    
+    <bean class="org.springframework.jms.listener.SimpleMessageListenerContainer"> 
+        <property name="connectionFactory" ref="connectionFactory" /> 
+        <property name="destinationName" value="mail.queue" /> 
+        <property name="messageListener" ref="mailListenerAdapter" /> 
+    </bean>
+    
+    
+    <!-- 以下和jms_convert的一样，上面已经有了mailMessageConverter -->
+    <!-- <bean id="mailMessageConverter" class="com.xuyuan.j2ee.jms.post.convert.MailMessageConverter" /> -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    	<property name="defaultDestinationName" value="mail.queue" /> 
+        <property name="connectionFactory" ref="connectionFactory" /> 
+        <property name="receiveTimeout" value="10000" />
+        <property name="messageConverter" ref="mailMessageConverter" /> 
+    </bean> 
+    <bean id="frontDesk" class="com.xuyuan.j2ee.jms.post.convert.FrontDeskImpl"> 
+        <property name="jmsTemplate" ref="jmsTemplate" /> 
+    </bean>
+    <bean id="backOffice" class="com.xuyuan.j2ee.jms.post.convert.BackOfficeImpl"> 
+        <property name="jmsTemplate" ref="jmsTemplate" /> 
+    </bean>
+</beans>

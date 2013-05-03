@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>HighChart</title>
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/Charts/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+$(function () {
+    var chart;
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container'
+            },
+            xAxis: {
+                min: -0.5,
+                max: 5.5
+            },
+            yAxis: {
+                min: 0
+            },
+            title: {
+                text: 'Scatter plot with regression line'
+            },
+            series: [{
+                type: 'line',
+                name: 'Regression Line',
+                data: [[0, 1.11], [5, 4.51]],
+                marker: {
+                    enabled: false
+                },
+                states: {
+                    hover: {
+                        lineWidth: 0
+                    }
+                },
+                enableMouseTracking: false
+            }, {
+                type: 'scatter',
+                name: 'Observations',
+                data: [1, 1.5, 2.8, 3.5, 3.9, 4.2],
+                marker: {
+                    radius: 4
+                }
+            }]
+        });
+    });
+    
+});
+</script>
+</head>
+<body>
+	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+
+client:
+http://code.google.com/p/memcached/wiki/Clients
+	spymemcached
+	memcached java client
+	memcached client for java
+	xmemcached
+
+http://blog.csdn.net/gtuu0123/article/details/4849905  spymemcached使用
+http://blog.csdn.net/gtuu0123/article/details/4897805  memcached client for java使用

@@ -1,0 +1,43 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"      
+    xsi:noNamespaceSchemaLocation="ehcache.xsd">
+    
+    <!--调用ehcache1和ehcache2的RMI-->  
+    <cacheManagerPeerProviderFactory      
+        class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"      
+        properties="peerDiscovery=manual,rmiUrls=//127.0.0.1:40001/sampleCache1|//127.0.0.1:40002/sampleCache1" />      
+    
+    <!--RMI监听40003端口，模拟新增加一个节点-->  
+    <cacheManagerPeerListenerFactory      
+        class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"      
+        properties="hostName=127.0.0.1,port=40003, socketTimeoutMillis=120000" />      
+      
+    <defaultCache maxElementsInMemory="10000" eternal="false"      
+        timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true"      
+        diskSpoolBufferSizeMB="30" maxElementsOnDisk="10000000"      
+        diskPersistent="false" diskExpiryThreadIntervalSeconds="120"      
+        memoryStoreEvictionPolicy="LRU">      
+        <cacheEventListenerFactory      
+            class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />      
+    </defaultCache>      
+      
+    <cache name="sampleCache1" 
+    	maxElementsInMemory="1000" 
+    	eternal="false"      
+        timeToIdleSeconds="100000" 
+        timeToLiveSeconds="100000" 
+        overflowToDisk="false">      
+        <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />      
+    </cache>      
+    <cache name="sampleCache2"
+  		maxEntriesLocalHeap="10"
+  		eternal="false"
+  		timeToIdleSeconds="100"
+  		timeToLiveSeconds="100"
+  		overflowToDisk="false">
+  		<cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />
+  		<!-- 
+		<cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+				properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+		 -->		
+	</cache>      
+</ehcache>

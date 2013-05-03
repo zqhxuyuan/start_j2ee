@@ -13,7 +13,7 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * <s:file/>不仅绑定了name对应的File变量xx,还有xxContentType,xxxFileName
+ * <s:file/>不仅绑定了name对应的File变量xx,还有xxContentType,xxFileName
  *
  * 使用到了Servlet容器相关的API,需要在pom.xml中加入Servlet API依赖.
  *
@@ -34,6 +34,7 @@ import com.opensymphony.xwork2.ActionSupport;
  *
  *   配置struts.multipart.saveDir=/tmp
  *   一般情况下如果不做特殊配置window会上传到C:/tmp,没有则创建tmp文件夹.
+ *   Linux环境下,则上传到指定的目录下.
  *
  * @author max
  * http://www.blogjava.net/max/archive/2007/03/21/105124.html
@@ -42,16 +43,25 @@ public class FileUploadAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private static final int BUFFER_SIZE = 16 * 1024 ;
 
+	/**
+	 * @uml.property  name="userImage"
+	 */
 	private File userImage;
 
+	/**
+	 * @uml.property  name="userImageContentType"
+	 */
 	private String userImageContentType;
+	/**
+	 * @uml.property  name="userImageFileName"
+	 */
 	private String userImageFileName;
 
 	public String jqueryFileUpload(){
 		this.uploadFile();
 		return null;
 	}
-	
+
 	public String execute(){
 		this.uploadFile();
 		return SUCCESS;
@@ -103,23 +113,47 @@ public class FileUploadAction extends ActionSupport {
         return fileName.substring(pos);
    }
 
+	/**
+	 * @return
+	 * @uml.property  name="userImage"
+	 */
 	public File getUserImage() {
 		return userImage;
 	}
+	/**
+	 * @param userImage
+	 * @uml.property  name="userImage"
+	 */
 	public void setUserImage(File userImage) {
 		this.userImage = userImage;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="userImageContentType"
+	 */
 	public String getUserImageContentType() {
 		return userImageContentType;
 	}
+	/**
+	 * @param userImageContentType
+	 * @uml.property  name="userImageContentType"
+	 */
 	public void setUserImageContentType(String userImageContentType) {
 		this.userImageContentType = userImageContentType;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="userImageFileName"
+	 */
 	public String getUserImageFileName() {
 		return userImageFileName;
 	}
+	/**
+	 * @param userImageFileName
+	 * @uml.property  name="userImageFileName"
+	 */
 	public void setUserImageFileName(String userImageFileName) {
 		this.userImageFileName = userImageFileName;
 	}

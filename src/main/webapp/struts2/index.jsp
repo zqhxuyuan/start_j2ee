@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Struts 2 - Welcome</title>
 <s:head />
 </head>
@@ -15,7 +15,7 @@
 </s:form>
 
 <b>[ProcessForms]</b>
-<a href="register.jsp">Please register</a>
+<a href="struts2/register.jsp">Please register(×)</a>
 <s:url action="registerInput" var="registerInputLink" />
 <a href="${registerInputLink}">Or Click Here</a>
 <br><br>
@@ -45,12 +45,6 @@
 <s:form action="fileUpload" method="post" enctype="multipart/form-data" >
 	<s:file name="userImage" label="User Image" />
 	<s:submit value="Upload"/>
-</s:form>
-
-<b>[Struts2+Lucene3]</b>
-<s:form action="articleSearch">
-  	<s:textfield name="title" label="Article Title" />
-  	<s:submit value="Search" />
 </s:form>
 <hr/>
 

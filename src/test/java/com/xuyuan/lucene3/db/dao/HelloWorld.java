@@ -38,8 +38,17 @@ import com.xuyuan.lucene3.db.model.Article;
  */
 public class HelloWorld {
 
+	/**
+	 * @uml.property  name="iNDEXPATH"
+	 */
 	String INDEXPATH = "./indexDir/"; //索引数据的存放路径.
+	/**
+	 * @uml.property  name="queryStr"
+	 */
 	String queryStr = "HelloWorld"; //搜索条件
+	/**
+	 * @uml.property  name="queryField"
+	 */
 	String queryField = "content"; //搜索字段
 
 	/**

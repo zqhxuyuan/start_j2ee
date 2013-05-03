@@ -1,5 +1,8 @@
 package com.xuyuan.struts2.helloworld.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.xuyuan.struts2.helloworld.model.MessageStore;
 
@@ -24,13 +27,25 @@ public class HelloWorldAction extends ActionSupport {
 
 	//---------------定义需要被页面使用的变量
 	//页面上s:property messageStore.message显示对象的属性值
+	/**
+	 * @uml.property  name="messageStore"
+	 * @uml.associationEnd  
+	 */
 	private MessageStore messageStore;
 
 	//成员变量,页面上可以获取到userName,显示
+	/**
+	 * @uml.property  name="userName"
+	 */
 	private String userName;
 
 	//静态变量,每次执行execute,+1
 	private static int helloCount = 0;
+	
+	/**
+	 * @uml.property  name="msgs"
+	 */
+	private List<MessageStore> msgs = new ArrayList<MessageStore>();
 
 	//---------------Action的方法实现,为变量取值设置
 	@Override
@@ -41,21 +56,41 @@ public class HelloWorldAction extends ActionSupport {
 		}
 
 		helloCount++;
-
+		
+		msgs.add(messageStore);
+		messageStore = new MessageStore();
+		messageStore.setMessage("Welcome!!!");
+		msgs.add(messageStore);
 		return SUCCESS;
 	}
-
+	
 	//---------------变量的get,set方法
+	/**
+	 * @return
+	 * @uml.property  name="messageStore"
+	 */
 	public MessageStore getMessageStore() {
 		return messageStore;
 	}
+	/**
+	 * @param messageStore
+	 * @uml.property  name="messageStore"
+	 */
 	public void setMessageStore(MessageStore messageStore) {
 		this.messageStore = messageStore;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="userName"
+	 */
 	public String getUserName() {
 		return userName;
 	}
+	/**
+	 * @param userName
+	 * @uml.property  name="userName"
+	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
@@ -65,6 +100,18 @@ public class HelloWorldAction extends ActionSupport {
 	}
 	public void setHelloCount(int helloCount) {
 		HelloWorldAction.helloCount = helloCount;
+	}
+
+	public List<MessageStore> getMsgs() {
+		return msgs;
+	}
+
+	public void setMsgs(List<MessageStore> msgs) {
+		this.msgs = msgs;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }
 

@@ -13,8 +13,18 @@ import com.xuyuan.extjs3.login.bean.User;
 public class LoginDemoAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * @uml.property  name="success"
+	 */
 	private boolean success;
+	/**
+	 * @uml.property  name="message"
+	 */
 	private String message;
+	/**
+	 * @uml.property  name="user"
+	 * @uml.associationEnd  
+	 */
 	private User user;
 
 	public String execute() throws Exception {
@@ -28,21 +38,45 @@ public class LoginDemoAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="success"
+	 */
 	public boolean isSuccess() {
 		return success;
 	}
+	/**
+	 * @param success
+	 * @uml.property  name="success"
+	 */
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
+	/**
+	 * @return
+	 * @uml.property  name="message"
+	 */
 	public String getMessage() {
 		return message;
 	}
+	/**
+	 * @param message
+	 * @uml.property  name="message"
+	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	/**
+	 * @return
+	 * @uml.property  name="user"
+	 */
 	public User getUser() {
 		return user;
 	}
+	/**
+	 * @param user
+	 * @uml.property  name="user"
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}

@@ -3,8 +3,11 @@ package com.xuyuan.lucene3.file;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Date;
 
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
@@ -20,17 +23,19 @@ import org.apache.lucene.util.Version;
  */
 public class CreateIndex {
 	public static void main(String[] args) throws IOException {
-		String indexDir = "d:/lucene/index";
-		String dateDir = "d:/lucene/doc";
+		String indexDir = "d:/index";
+		String dataDir = "d:/data";
 
 		//创建Directory对象
 		Directory dir = new SimpleFSDirectory(new File(indexDir));
-
-		//创建indexWriter对象
-		IndexWriter indexWriter = new IndexWriter(dir, new StandardAnalyzer(Version.LUCENE_30), true, IndexWriter.MaxFieldLength.UNLIMITED);
+		
+		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_30);
+		
+		//创建IndexWriter对象
+		IndexWriter indexWriter = new IndexWriter(dir, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
 
 		//获取源文件的File数组
-		File[] files = new File(dateDir).listFiles();
+		File[] files = new File(dataDir).listFiles();
 
 		//通过循环将每个文件写入索引
 		for (int i = 0; i < files.length; i++) {
@@ -42,6 +47,7 @@ public class CreateIndex {
 
 			//将Document对象写入IndexWriter
 			indexWriter.addDocument(doc);
+			
 		}
 		// 查看IndexWriter里面有多少个索引
 		System.out.println("numDocs" + indexWriter.numDocs());

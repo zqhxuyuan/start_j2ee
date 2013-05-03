@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- 基于注解的MBean管理 -->
+	<!-- 
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">  
+        <property name="assembler" ref="assembler" />  
+        <property name="namingStrategy" ref="namingStrategy" />  
+    </bean>  
+    <bean id="assembler" class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">  
+        <property name="attributeSource" ref="jmxas" />  
+    </bean>  
+    <bean id="namingStrategy" class="org.springframework.jmx.export.naming.MetadataNamingStrategy">  
+        <property name="attributeSource" ref="jmxas" />  
+    </bean>  
+    <bean id="jmxas" class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource" />
+      
+    <bean id="javaObj" class="com.xuyuan.j2ee.jmx.spring.MyJavaAnnotationObject">  
+        <property name="id" value="201122121200" />  
+        <property name="name" value="shirdrn" />  
+    </bean>
+    -->
+    
+    <!-- 
+    <bean class="org.springframework.jmx.export.annotation.AnnotationMBeanExporter"/>
+     -->  
+    <context:mbean-export registration="failOnExisting" />
+    <bean name="myAnnoObject"  class="com.xuyuan.j2ee.jmx.spring.MyJavaAnnotationObject">  
+        <property name="id" value="201122121200" />  
+        <property name="name" value="shirdrn" />  
+    </bean>    
+</beans>

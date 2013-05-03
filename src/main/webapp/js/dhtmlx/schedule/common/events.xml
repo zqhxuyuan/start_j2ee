@@ -1,0 +1,20 @@
+<data>
+	<event id="2">
+		<start_date><![CDATA[2012-05-25 10:00:00]]></start_date>
+		<end_date><![CDATA[2012-05-25 18:00:00]]></end_date>
+		<text><![CDATA[French Open]]></text>
+		<details><![CDATA[Philippe-Chatrier Court Paris, FRA]]></details>
+	</event>
+	<event id="3">
+		<start_date><![CDATA[2012-06-08 10:00:00]]></start_date>
+		<end_date><![CDATA[2012-06-08 13:00:00]]></end_date>
+		<text><![CDATA[French Open]]></text>
+		<details><![CDATA[Philippe-Chatrier Court Paris, FRA]]></details>
+	</event>
+	<event id="4">
+		<start_date><![CDATA[2012-06-09 10:00:00]]></start_date>
+		<end_date><![CDATA[2012-06-09 12:00:00]]></end_date>
+		<text><![CDATA[French Open ss]]></text>
+		<details><![CDATA[Philisdfdsfppe-Chatrier Court Paris, FRA]]></details>
+	</event>
+</data>

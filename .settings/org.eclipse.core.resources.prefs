@@ -1,4 +1,27 @@
-#Thu Feb 09 13:41:37 CST 2012
+#Thu Apr 18 09:26:35 CST 2013
 eclipse.preferences.version=1
+encoding//src/main/resources/oscache.properties=UTF-8
 encoding//src/main/resources/quartz.properties=UTF-8
+encoding//src/main/resources/testToken_zh_CN.properties=UTF-8
+encoding//src/main/webapp/chart/fusioncharts/angular.html=UTF-8
+encoding//src/main/webapp/dhtmlx/tree/treemenu.jsp=UTF-8
+encoding//src/main/webapp/dhtmlx/xml/treemenu_noid.xml=UTF-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/adv-vtypes_\u81EA\u5B9A\u4E49\u7C7B\u578B.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/check-radio_\u5355\u9009\u590D\u9009.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/combos_\u4E0B\u62C9\u6846.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/composite-field_\u590D\u5408\u5B57\u6BB5.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/custom_\u81EA\u5B9A\u4E49\u8868\u5355\u641C\u7D22\u5B57\u6BB5.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/dynamic_\u52A8\u6001\u8868\u5355.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/file-upload_\u6587\u4EF6\u4E0A\u4F20.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/form-grid-access.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/form-grid_\u52A8\u6001\u8868\u5355\u5185\u5D4C\u8868\u683C.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/forum-search_\u4E0B\u62C9\u6846\u5B57\u6BB5\u641C\u7D22.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/form/xml-form_XML\u52A0\u8F7D\u8868\u5355.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/grid/ColumnHeaderGroup_\u5217\u5206\u7EC4.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/grid/binding_\u6570\u636E\u7ED1\u5B9A.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/grid/grid-plugins_\u8868\u683C\u63D2\u4EF6.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/grid/row-editor_\u884C\u7F16\u8F91\u8868\u683C.html=utf-8
+encoding//src/main/webapp/extjs3.3.1/examples/tree/check-tree_\u9009\u62E9\u6811.html=UTF-8
 encoding//src/main/webapp/extjs3/login.jsp=UTF-8
+encoding//src/main/webapp/lucene/lucene-result.jsp=UTF-8
+encoding//src/main/webapp/struts2/index.jsp=UTF-8

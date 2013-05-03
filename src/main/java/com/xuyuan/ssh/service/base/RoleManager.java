@@ -12,6 +12,10 @@ import com.xuyuan.ssh.entity.base.Role;
 @Service
 public class RoleManager {
 
+	/**
+	 * @uml.property  name="roleDao"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private RoleDao roleDao;
 	

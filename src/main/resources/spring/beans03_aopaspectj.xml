@@ -1,0 +1,96 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	<!--
+    <context:load-time-weaver />
+    <context:spring-configured />
+    <context:annotation-config />
+	-->
+	
+	<!-- annotation -->
+	<aop:aspectj-autoproxy />
+
+	<!-- bean -->
+    <bean id="arithmeticCalculator" class="com.xuyuan.spring3.recipes.aopaspectj.ArithmeticCalculatorImpl" />
+    <bean id="unitCalculator" class="com.xuyuan.spring3.recipes.aopaspectj.UnitCalculatorImpl" />
+    
+    <!-- aspect -->
+    <bean id="calculatorLoggingAspect" class="com.xuyuan.spring3.recipes.aopaspectj.CalculatorLoggingAspect" />
+    <bean id="calculatorValidationAspect" class="com.xuyuan.spring3.recipes.aopaspectj.CalculatorValidationAspect" />
+    <bean id="calculatorIntroduction" class="com.xuyuan.spring3.recipes.aopaspectj.CalculatorIntroduction" />
+    
+    <!-- xml -->
+	<!--
+    <aop:config>
+        <aop:pointcut id="loggingOperation" expression=
+            "within(com.xuyuan.spring3.recipes.aopaspectj.ArithmeticCalculator+) || within(com.xuyuan.spring3.recipes.aopaspectj.UnitCalculator+)" />
+
+        <aop:pointcut id="validationOperation" expression=
+            "within(com.xuyuan.spring3.recipes.aopaspectj.ArithmeticCalculator+) || within(com.xuyuan.spring3.recipes.aopaspectj.UnitCalculator+)" />
+
+        <aop:aspect id="loggingAspect" ref="calculatorLoggingAspect">
+            <aop:before pointcut-ref="loggingOperation" method="logBefore" />
+            <aop:after-returning pointcut-ref="loggingOperation" returning="result" method="logAfterReturning" />
+            <aop:after-throwing pointcut-ref="loggingOperation" throwing="e" method="logAfterThrowing" />
+            <aop:around pointcut-ref="loggingOperation" method="logAround" />
+        </aop:aspect>
+
+        <aop:aspect id="validationAspect" ref="calculatorValidationAspect">
+            <aop:before pointcut-ref="validationOperation" method="validateBefore" />
+        </aop:aspect>
+
+        <aop:aspect id="introduction" ref="calculatorIntroduction">
+            <aop:declare-parents
+                types-matching="com.xuyuan.spring3.recipes.aopaspectj.ArithmeticCalculatorImpl"
+                implement-interface="com.xuyuan.spring3.recipes.aopaspectj.MaxCalculator"
+                default-impl="com.xuyuan.spring3.recipes.aopaspectj.MaxCalculatorImpl" />
+
+            <aop:declare-parents
+                types-matching="com.xuyuan.spring3.recipes.aopaspectj.ArithmeticCalculatorImpl"
+                implement-interface="com.xuyuan.spring3.recipes.aopaspectj.MinCalculator"
+                default-impl="com.xuyuan.spring3.recipes.aopaspectj.MinCalculatorImpl" />
+
+            <aop:declare-parents
+                types-matching="com.xuyuan.spring3.recipes.aopaspectj.*CalculatorImpl"
+                implement-interface="com.xuyuan.spring3.recipes.aopaspectj.Counter"
+                default-impl="com.xuyuan.spring3.recipes.aopaspectj.CounterImpl" />
+
+            <aop:after pointcut="execution(* com.xuyuan.spring3.recipes.aopaspectj.*Calculator.*(..)) and this(counter)" method="increaseCount" />
+        </aop:aspect>
+    </aop:config>
+
+    <bean class="com.xuyuan.spring3.recipes.aopaspectj.ComplexCachingAspect" >
+        <property name="cache">
+            <map>
+                <entry key="2,3">
+                    <bean class="com.xuyuan.spring3.recipes.aopaspectj.Complex">
+                        <constructor-arg value="2" />
+                        <constructor-arg value="3" />
+                    </bean>
+                </entry>
+                <entry key="3,5">
+                    <bean class="com.xuyuan.spring3.recipes.aopaspectj.Complex">
+                        <constructor-arg value="3" />
+                        <constructor-arg value="5" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="complexCalculator" class="com.xuyuan.spring3.recipes.aopaspectj.ComplexCalculatorImpl" />
+
+    <bean id="complexFormatter" class="com.xuyuan.spring3.recipes.aopaspectj.ComplexFormatter">
+        <property name="pattern" value="(a + bi)" />
+    </bean>
+
+    <bean id="complex" class="com.xuyuan.spring3.recipes.aopaspectj.Complex" scope="prototype" />
+    -->
+</beans>

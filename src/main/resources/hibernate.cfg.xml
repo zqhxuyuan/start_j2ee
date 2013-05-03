@@ -6,15 +6,52 @@
 		<property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ssh</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        
-        <property name="current_session_context_class">thread</property>  
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+        <property name="current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="format_sql">true</property> 
-        
+        <property name="format_sql">true</property>
+		<property name="hbm2ddl.auto">update</property>
+		
+		<!-- extjs grid,后面用JPA代替 -->
+		<!--
         <mapping class="com.xuyuan.extjs3.model.Level" />
         <mapping class="com.xuyuan.extjs3.model.Sort" />
-        
+ 		--> 
+ 		
+        <!-- Hibernate3.X tutorial -->
+        <!-- XML配置方式 -->
+        <!-- 
+        <mapping resource="com/xuyuan/hibernate3/tutorial/domain/Event.hbm.xml"/>
+        <mapping resource="com/xuyuan/hibernate3/tutorial/domain/Person.hbm.xml"/>
+        -->
+        <!-- JPA方式 -->
+        <!-- 
+        <mapping class="com.xuyuan.hibernate3.tutorial.domain.Event"/>
+        <mapping class="com.xuyuan.hibernate3.tutorial.domain.Person"/>
+        <mapping class="com.xuyuan.hibernate3.refdoc.Cat"/>
+        <mapping class="com.xuyuan.hibernate3.refdoc.Color"/>
+         -->
+         
+        <!-- 
         <mapping resource="com/xuyuan/hibernate3/model/user.hbm.xml"></mapping>
+ 		-->
+ 		
+        <!-- 多对一,一对多 -->
+        <!--
+        <mapping resource="com/xuyuan/hibernate3/model/dept.hbm.xml"></mapping>
+        <mapping resource="com/xuyuan/hibernate3/model/emp.hbm.xml"></mapping>
+        -->
+
+        <!-- 一对一 -->
+        <!--
+        <mapping resource="com/xuyuan/hibernate3/model/person.hbm.xml"></mapping>
+        <mapping resource="com/xuyuan/hibernate3/model/idcard.hbm.xml"></mapping>
+        -->
+
+		<!-- For Hibernate XML mappings -->
+		<!-- <mapping resource="com/xuyuan/spring3/recipes/dataaccess/course/Course.hbm.xml" /> -->
+		<!-- For JPA annotations --> 
+        <!-- <mapping class="com.xuyuan.spring3.recipes.dataaccess.course.Course" />  -->
     </session-factory>
 </hibernate-configuration>

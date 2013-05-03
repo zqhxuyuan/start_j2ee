@@ -18,20 +18,9 @@ public class TreeDaoImpl<T extends Tree> extends BaseDaoImpl<T> implements TreeD
 //	public void setDao(BaseDao<T> dao) {
 //		this.dao = dao;
 //	}
+
 	/**
-	 * 将Sort对象的查询到的数据封装在Ext认识的Tree对象中
-	 *
-	 * 看看这条HQL语句,可以先分解成 select * from Sort 也就是说我们要的数据来自Sort这张表.
-	 * 查询后如果按照一般的HQL语句,返回的应该是个Sort对象吧.因为from Sort.但是我们要把Sort对象转为Ext认识的Tree对象.
-	 *
-	 * 所以,我们在select * 这个* 中转为Tree对象.
-	 * Tree对象需要的属性有: Tree(String text, Integer id, Integer nodeid, Integer pid,Integer nodelevel)
-	 * 就要求Sort中和Tree的对应上  categoryname,        id,          nodeid,         pid,       nodelevel
-	 *
-	 * 这里我们可以看出Sort对象的categoryname属性和Tree的text属性是对应的.其他依次类推.
-	 *
-	 * HQL可以这么理解: select categoryname,id,nodeid,pid,nodelevele from Sort where show=1
-	 * 然后把查询出来的对象(Object,因为不是完整的Sort对象) 转为Tree对象.
+	 * @author hoojo
 	 */
 	public List<T> getTreeListByParentId(T entity) throws Exception {
 		String hql = "select new com.xuyuan.extjs3.tree.bean.Tree(categoryname, id, nodeid, pid, nodelevel) from Sort where show = 1";
@@ -43,9 +32,11 @@ public class TreeDaoImpl<T extends Tree> extends BaseDaoImpl<T> implements TreeD
 		//return dao.getList(hql);
 		return this.getList(hql);
 	}
+	//---------------------------------------------------------------
 
 	/**
 	 * 查找
+	 * @author BruceLeey
 	 */
 	public Exttree findById(Long id) throws Exception {
         List<Exttree> list = this.getHibernateTemplate().find("from Exttree where id=?", id);

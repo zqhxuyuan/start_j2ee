@@ -67,6 +67,7 @@
 		<!-- Interceptors -->
 		<action name="logger" class="com.xuyuan.struts2.interceptors.action.LoggerAction">
 			<interceptor-ref name="logger" />
+			<result name="success">/struts2/index.jsp</result>
 		</action>
 
 		<!-- ModelDriven -->
@@ -81,10 +82,17 @@
 			<result name="success">/struts2/fileupload-success.jsp</result>
 		</action>
 
+		<action name="token" class="com.xuyuan.struts2.token.TokenAction">
+            <result name="invalid.token">/struts2/token.jsp</result> <!--注意此处-->
+			<result>/struts2/token.jsp</result>
+           	<interceptor-ref name="defaultStack" />
+           	<interceptor-ref name="token" />
+        </action>
 	</package>
 
 	<include file="struts_ssh.xml"></include>	
 	<include file="struts_ssj.xml"></include>	
 	<include file="struts_util.xml"></include>	
 	<include file="struts_ext.xml"></include>	
+	<include file="struts_dhtmlx.xml"></include>	
 </struts>

@@ -13,15 +13,27 @@ import com.xuyuan.lucene3.db.service.ArticleService;
  *
  * TODO 实际应用中,可能索引是增量创建的,所以不能用是否有文件存在来判断是否创建索引.
  * 而且由于是增量创建的,ArticleService中也不能调用articleDAO.getArticles()每次都是重新创建索引.
- * @author Administrator
  * http://jushi1988.iteye.com/blog/693188
  */
 public class ArticleAction extends ActionSupport{
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="articleService"
+	 * @uml.associationEnd  
+	 */
 	private ArticleService articleService;
+	/**
+	 * @uml.property  name="title"
+	 */
 	private String title; //搜索条件
+	/**
+	 * @uml.property  name="list"
+	 */
 	private List<Article> list = new ArrayList<Article>(); //搜索结果
+	/**
+	 * @uml.property  name="totalHits"
+	 */
 	private Integer totalHits = 0; //搜索结果数量
 
 	public String execute() throws Exception{
@@ -36,16 +48,32 @@ public class ArticleAction extends ActionSupport{
 		return SUCCESS;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="articleService"
+	 */
 	public ArticleService getArticleService() {
 		return articleService;
 	}
+	/**
+	 * @param articleService
+	 * @uml.property  name="articleService"
+	 */
 	public void setArticleService(ArticleService articleService) {
 		this.articleService = articleService;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="title"
+	 */
 	public String getTitle() {
 		return title;
 	}
+	/**
+	 * @param title
+	 * @uml.property  name="title"
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -57,9 +85,17 @@ public class ArticleAction extends ActionSupport{
 		this.list = list;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="totalHits"
+	 */
 	public Integer getTotalHits() {
 		return totalHits;
 	}
+	/**
+	 * @param totalHits
+	 * @uml.property  name="totalHits"
+	 */
 	public void setTotalHits(Integer totalHits) {
 		this.totalHits = totalHits;
 	}

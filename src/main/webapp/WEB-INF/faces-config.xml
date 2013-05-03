@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee" 
+              xmlns:xi="http://www.w3.org/2001/XInclude" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"> 
+ 
+    <application> 
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver> 
+    </application> 
+    
+    <!-- refer to beans declared in Spring:#{cityService} from JSF managed beans:jsf container! -->
+    <!--
+    <managed-bean> 
+        <managed-bean-name>distanceBean</managed-bean-name> 
+        <managed-bean-class>com.xuyuan.spring3.recipes.intergratweb.jsf.DistanceBean</managed-bean-class> 
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property> 
+            <property-name>cityService</property-name> 
+            <value>#{cityService}</value> 
+        </managed-property> 
+    </managed-bean> 
+ 	-->
+</faces-config>

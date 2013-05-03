@@ -1,0 +1,18 @@
+
+http://blog.csdn.net/gtuu0123/article/details/4996763	EHCache简单使用
+http://blog.csdn.net/gtuu0123/article/details/4997071	EHCache利用RMI方式实现同步缓存
+http://blog.sina.com.cn/s/blog_62200f0e0100l9zi.html	EHCache集群配置+
+http://soartju.iteye.com/blog/790205					通过程序动态创建集群环境下的Ehcache RMI分布式缓存
+http://ehcache.org/documentation
+
+JMS-Replicated-Cache:
+The Ehcache jmsreplication module lets organisations with a message queue investment leverage it for caching.It provides:
+1. replication between cache nodes using a replication topic在缓存节点使用复制主题, 
+in accordance with一致性 ehcache's standard replication mechanism标准的复制策略
+2. pushing of data directly to cache nodes from external topic publishers, in any language.从外部主题发布者将数据目录push到缓存节点 
+This is done by sending the data to the replication topic通过发送数据到复制主题, 
+where it automatically picked up by the cache subscribers.会被缓存订阅者自动接收到
+3. a JMSCacheLoader, which sends cache load requests to a queue发送缓存请求到队列. 
+Either an Ehcache cluster node, or an external queue receiver can respond.集群中的节点或外部队列接收者会进行响应
+
+

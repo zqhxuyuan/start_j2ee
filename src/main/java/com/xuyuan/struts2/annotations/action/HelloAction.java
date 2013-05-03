@@ -8,6 +8,9 @@ import com.opensymphony.xwork2.ActionSupport;
 public class HelloAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="message"
+	 */
 	private String message;
 
 	/**
@@ -20,9 +23,17 @@ public class HelloAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * @param message
+	 * @uml.property  name="message"
+	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	/**
+	 * @return
+	 * @uml.property  name="message"
+	 */
 	public String getMessage() {
 		return message;
 	}

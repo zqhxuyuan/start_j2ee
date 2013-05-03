@@ -1,1 +1,0 @@
-package com.xuyuan.pager_ftl.service.hibernate;import com.xuyuan.pager_ftl.dao.hibernate.PagingListHt;public class BookPageService extends BaseService{	// 获取用户列表	private static final String HQL_GET_ALL_USERS = "from Books u order by u.bookId asc";		public PagingListHt getAllUsers() {		return getPagingListHt(HQL_GET_ALL_USERS);	}}

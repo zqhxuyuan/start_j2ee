@@ -11,6 +11,10 @@ import com.xuyuan.lucene3.db.model.QueryResult;
 
 public class ArticleIndexDaoTest {
 
+	/**
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	ArticleIndexDao dao = new ArticleIndexDao();
 
 	@Before

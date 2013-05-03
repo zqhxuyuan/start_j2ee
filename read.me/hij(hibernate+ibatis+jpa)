@@ -1,1 +1,0 @@
-HIBERNATE + iBATIS(MyBATIS) + JPA ==>HIJ(HelloJAVA)ssh和ssj项目同时存在,即在web.xml中配置	classpath:applicationContext_beans.xml	classpath:applicationContext_ssh.xml	classpath:applicationContext_ssj.xml或者:	classpath:applicationContext*.xml

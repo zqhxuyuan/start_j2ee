@@ -1,1 +1,0 @@
-package com.xuyuan.pager.model;import org.junit.Before;import org.junit.Test;import com.xuyuan.pager.model.Pager;public class PagerTest {	Pager pager ;		@Before	public void setUp() throws Exception {		pager = new Pager(30);	}		@Test	public void test(){		pager.first();		pager.next();		pager.next();		pager.last();		pager.previous();		pager.first();	}}

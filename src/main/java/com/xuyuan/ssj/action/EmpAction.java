@@ -27,12 +27,26 @@ import com.xuyuan.ssj.service.EmpService;
 public class EmpAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * @uml.property  name="persons"
+	 */
 	private List<Person> persons;
 	//private transient EmpService empService;
+	/**
+	 * @uml.property  name="empService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Resource(name = "empService")
 	public EmpService empService;
 
+	/**
+	 * @uml.property  name="emplid"
+	 */
 	private Long emplid;
+	/**
+	 * @uml.property  name="person"
+	 * @uml.associationEnd  
+	 */
 	private Person person;
 	
 	@Override
@@ -96,18 +110,34 @@ public class EmpAction extends ActionSupport {
 //		this.empService = empService;
 //	}
 
+	/**
+	 * @return
+	 * @uml.property  name="emplid"
+	 */
 	public Long getEmplid() {
 		return emplid;
 	}
 
+	/**
+	 * @param emplid
+	 * @uml.property  name="emplid"
+	 */
 	public void setEmplid(Long emplid) {
 		this.emplid = emplid;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="person"
+	 */
 	public Person getPerson() {
 		return person;
 	}
 
+	/**
+	 * @param person
+	 * @uml.property  name="person"
+	 */
 	public void setPerson(Person person) {
 		this.person = person;
 	}

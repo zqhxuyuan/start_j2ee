@@ -1,0 +1,22 @@
+{
+    count: 4,
+    people: [
+        {
+            first_name: "Joe",
+            last_name: "Lennon",
+            age: 25		
+        },{
+            first_name: "Darragh",
+            last_name: "Duffy",
+            age: 33
+        },{
+            first_name: "Jonathan",
+            last_name: "Reardon",
+            age: 30
+        },{
+            first_name: "Finian",
+            last_name: "O'Connor",
+            age: 23
+        }
+    ]
+}

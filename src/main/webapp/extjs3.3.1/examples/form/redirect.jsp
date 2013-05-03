@@ -1,0 +1,1 @@
+<%@ page language="java" contentType="text/html; charset=UTF8" %><%	 response.sendRedirect("hello.jsp");%>

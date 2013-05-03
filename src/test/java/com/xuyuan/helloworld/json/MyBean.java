@@ -4,6 +4,9 @@ import java.util.List;
 
 public class MyBean {
 
+	/**
+	 * @uml.property  name="data"
+	 */
 	private List<Person> data;
 
 	public List<Person> getData() {

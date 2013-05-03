@@ -55,13 +55,33 @@ public class EditAction extends ActionSupport {
 
 	//-----------------用户的相关信息某个选项选中的数据获取
 	//private EditService editService = new EditServiceInMemory();
+	/**
+	 * @uml.property  name="editService"
+	 * @uml.associationEnd  
+	 */
 	private EditService editService;
+	/**
+	 * @uml.property  name="personBean"
+	 * @uml.associationEnd  
+	 */
 	private Person personBean;
 
 	//-----------------用户的相关信息某个选项所有的数据模拟
+	/**
+	 * @uml.property  name="sports" multiplicity="(0 -1)" dimension="1"
+	 */
 	private String [] sports = {"football", "baseball", "basketball" };
+	/**
+	 * @uml.property  name="genders" multiplicity="(0 -1)" dimension="1"
+	 */
 	private String [] genders = {"male", "female", "not sure" };
+	/**
+	 * @uml.property  name="states"
+	 */
 	private List<State> states ;
+	/**
+	 * @uml.property  name="carModelsAvailable" multiplicity="(0 -1)" dimension="1"
+	 */
 	private String [] carModelsAvailable = {"Ford","Chrysler","Toyota","Nissan","Niss","Nissans"};
 
 	//-----------------模拟点击编辑,加载数据库中的数据,回显数据
@@ -78,13 +98,25 @@ public class EditAction extends ActionSupport {
 	}
 
 	//-----------------get方法,在页面上获取到数据进行显示
+	/**
+	 * @return
+	 * @uml.property  name="personBean"
+	 */
 	public Person getPersonBean() {
 		return personBean;
 	}
+	/**
+	 * @param person
+	 * @uml.property  name="personBean"
+	 */
 	public void setPersonBean(Person person) {
 		personBean = person;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="sports"
+	 */
 	public String[] getSports(){
 		return sports;
 	}
@@ -106,14 +138,26 @@ public class EditAction extends ActionSupport {
 		return states;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="carModelsAvailable"
+	 */
 	public String [] getCarModelsAvailable() {
 		return carModelsAvailable;
 	}
 
 	//-----------------DI by spring
+	/**
+	 * @return
+	 * @uml.property  name="editService"
+	 */
 	public EditService getEditService() {
 		return editService;
 	}
+	/**
+	 * @param editService
+	 * @uml.property  name="editService"
+	 */
 	public void setEditService(EditService editService) {
 		this.editService = editService;
 	}

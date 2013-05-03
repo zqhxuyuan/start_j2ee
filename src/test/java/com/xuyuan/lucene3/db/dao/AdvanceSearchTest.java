@@ -41,8 +41,17 @@ import com.xuyuan.lucene3.db.util.Article2DocumentUtil;
  */
 public class AdvanceSearchTest {
 
+	/**
+	 * @uml.property  name="iNDEXPATH"
+	 */
 	String INDEXPATH = "./indexDir/";
+	/**
+	 * @uml.property  name="queryString"
+	 */
 	String queryString = "HelloWorld";
+	/**
+	 * @uml.property  name="queryField"
+	 */
 	String queryField = "content";
 
 	/**

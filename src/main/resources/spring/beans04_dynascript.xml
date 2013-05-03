@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:lang="http://www.springframework.org/schema/lang" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+        http://www.springframework.org/schema/lang 
+        http://www.springframework.org/schema/lang/spring-lang-3.0.xsd"> 
+
+	<lang:jruby id="interestCalculator" 
+		script-source="classpath:com/xuyuan/spring3/recipes/dynascript/SimpleInterestCalculator.rb" 
+    	script-interfaces="com.xuyuan.spring3.recipes.dynascript.InterestCalculator"> 
+    	<lang:property name="rate" value="0.05" /> 
+	</lang:jruby> 
+ 
+</beans> 

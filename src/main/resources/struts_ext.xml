@@ -3,16 +3,29 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	
-	<package name="extjs" extends="json-default" >  
-	    <action name="Login" class="com.xuyuan.extjs3.action.LoginDemoAction">
+
+	<package name="ext-tree" extends="json-default" >
+	    <action name="Login" class="com.xuyuan.extjs3.login.action.LoginDemoAction">
 		   	<result type="json" />
-		</action> 
-        <action name="menudemo" class="com.xuyuan.extjs3.action.MenuDemoAction">
+		</action>
+
+        <action name="menudemo" class="com.xuyuan.extjs3.tree.action.MenuDemoAction">
 		   	<result>/extjs3/jsonString.jsp</result>
-		</action> 
+		</action>
+		<action name="treedemo" class="treedemoAction">
+			<result>/extjs3/jsonString.jsp</result>
+		</action>
 		
-		<!-- Ext Grid JSON SSH -->
+		<action name="treeAction" class="treeCRUDAction">
+			<result name="INDEX">/extjs3/tree_crud/console-index.jsp</result>
+			<result name="EDIT">/extjs3/tree_crud/console-edit.jsp</result>
+			<result name="JSON">/extjs3/tree_crud/console-json.jsp</result>
+			<result name="ERROR">/extjs3/tree_crud/error.jsp</result>
+			<result name="SUCCESS">/extjs3/tree_crud/success.jsp</result>
+		</action>
+    </package>
+    
+	<package name="ext-grid" extends="json-default" >
 		<action name="AddLevel" class="levelAction" method="persistLevel">
 	    	<result>/extjs3/jsonString.jsp</result>
 		</action>
@@ -22,18 +35,29 @@
         <action name="LevelAjaxJsonData" class="levelAction" method="jsonExecute">
             <result>/extjs3/jsonString.jsp</result>
         </action>
-        
-        <!-- Ext Tree JSON SSH -->
-		<action name="treedemo" class="treedemoAction">
-			<result>/extjs3/jsonString.jsp</result>
+    </package>
+
+	<!-- 采用struts-json插件,继承json-default -->
+    <package name="jquery" extends="json-default" >
+    	<!-- Dao,Service采用注解方式 -->
+		<action name="jqGrid" class="com.xuyuan.ssi.action.JQGridAction" method="userlist">
+    		<result>/extjs3/jsonString.jsp</result>
 		</action>
-		<action name="treeAction" class="treeCRUDAction">
-			<result name="INDEX">/extjs3/tree_crud/console-index.jsp</result>
-			<result name="EDIT">/extjs3/tree_crud/console-edit.jsp</result>
-			<result name="JSON">/extjs3/tree_crud/console-json.jsp</result>
-			<result name="ERROR">/extjs3/tree_crud/error.jsp</result>
-			<result name="SUCCESS">/extjs3/tree_crud/success.jsp</result>
+		<!-- 手动配置,不采用扫描方式 -->
+		<action name="jqGrid2" class="jqGridAction" method="userlist">
+    		<result>/extjs3/jsonString.jsp</result>
 		</action>
-    </package>  
-    
+    </package>
+    <!-- 采用自定义返回JSON类型 -->
+	<package name="jqGrid" extends="struts-default" >
+		<result-types>
+  			<result-type name="jsonResult" class="com.xuyuan.struts2.json.JsonResult" />
+		</result-types>
+		<action name="jqGrid3" class="com.xuyuan.ssi.action.JQGridAction" method="userlist">
+    		<result name="success" type="jsonResult">
+				<param name="jsonObjName">result</param>
+    		</result>
+		</action>
+    </package>
+
 </struts>

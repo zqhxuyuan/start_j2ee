@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 注解方式的实现类 -->
+    <bean id="fileCopier" class="com.xuyuan.spring3.recipes.enterprise.jmx.FileCopierJMXImpl" /> 
+    <bean id="documentReplicator" class="com.xuyuan.spring3.recipes.enterprise.jmx.FileReplicatorJMXImpl"> 
+        <property name="srcDir" value="#{systemProperties['user.home']}/docs"/>
+        <property name="destDir" value="#{systemProperties['user.home']}/docs_backup"/>
+        <property name="fileCopier" ref="fileCopier" /> 
+    </bean> 
+
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+        <property name="locateExistingServerIfPossible" value="true"/>
+    </bean>
+
+    <bean id="mbeanExporter" class="org.springframework.jmx.export.annotation.AnnotationMBeanExporter">
+        <property name="defaultDomain" value="bean"/>
+        <property name="notificationListenerMappings">
+            <map>
+                <entry key="bean:name=documentReplicator,type=FileReplicatorJMXImpl">
+                    <bean class="com.xuyuan.spring3.recipes.enterprise.jmx.ReplicationNotificationListener"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>

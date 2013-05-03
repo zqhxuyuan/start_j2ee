@@ -20,7 +20,7 @@ public class UserDao extends HibernateDao<User>{
 	/**
 	 * 根据登录名与密码查找对应用户，用于登录验证
 	 */
-	public List<User> getUser(final String username,final String password){
+	public List<User> getUser(String username,String password){
 		return super.createQuery("from User a where a.username = ? and a.password = ?",username,password).list();
 	}
 }

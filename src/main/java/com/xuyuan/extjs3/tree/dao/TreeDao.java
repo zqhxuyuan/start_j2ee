@@ -12,13 +12,15 @@ import com.xuyuan.extjs3.tree.bean.Exttree;
 public interface TreeDao<T> {
 
 	/**
-	 * Tree,Sort 同步树
-	 * 从数据库中获取所有的数据,展现树.
+	 * Tree,Sort 同步树 从数据库中获取所有的数据,展现树.
+	 * @author hoojo
 	 */
 	public List<T> getTreeListByParentId(T entity) throws Exception;
+	//-------------------------------------------------------------
 
 	/**
 	 * Exttree 异步树(包括CRUD操作)
+	 * @author BruceLeey
 	 */
 	//根据ID查找对象
     public Exttree findById(Long id) throws Exception;

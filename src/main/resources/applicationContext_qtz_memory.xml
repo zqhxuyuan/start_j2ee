@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 内存方式:静态方式配置Quartz任务调度 -->
+	<bean id="schedulerTrigger" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTrigger1" />
+				<ref bean="cronTrigger_1" />
+				<ref bean="cronTrigger_2" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- SimpleTrigger + JobDetailBean -->
+	<bean id="simpleTrigger1" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="jobDetai1"/>
+        <property name="startDelay" value="10000"/>
+        <property name="repeatInterval" value="10000"/>
+        <property name="repeatCount" value="1"/>
+    </bean>
+    <bean id="jobDetai1" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.xuyuan.quartz.memory.SimpleJobDetail"/>
+        <property name="jobDataAsMap">
+	      	<map>
+	        	<entry key="message" value="HelloWorld from Spring Quartz Configuration!"/>
+	      	</map>
+	    </property>
+    </bean>
+
+	<!-- CronTrigger + JobDetailBean -->
+	<bean id="cronTrigger_1" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetail_1" />
+		<property name="cronExpression" value="0 */2 * * * ?" />
+	</bean>
+	<bean name="jobDetail_1" class="org.springframework.scheduling.quartz.JobDetailBean">
+	    <property name="jobClass" value="com.xuyuan.quartz.memory.SimpleJobDetail"/>
+	    <property name="jobDataAsMap">
+	      	<map>
+	        	<entry key="message" value="Hello Again!!!"/>
+	      	</map>
+	    </property>
+	</bean>
+
+	<!-- CronTrigger + MethodInvokingJobDetailFactoryBean -->
+	<bean id="cronTrigger_2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	    <property name="jobDetail" ref="jobDetail_2" />
+	    <property name="cronExpression" value="0 0 0 * * ?" /> <!-- 每晚24点运行 -->
+	</bean>
+	<bean name="jobDetail_2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="simpleService" />
+		<property name="targetMethod" value="test" />
+	</bean>
+	<bean id="simpleService" class="com.xuyuan.quartz.memory.SimpleService" />
+
+</beans>

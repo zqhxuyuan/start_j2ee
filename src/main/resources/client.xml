@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+        
+    <!--    
+  	<bean id="client" class="com.xuyuan.spring3.recipes.ws.rmi.WeatherServiceClient"> 
+        <property name="weatherService" ref="weatherService" /> 
+    </bean> 
+ 
+ 	<bean id="weatherService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"> 
+        <property name="serviceUrl" value="rmi://localhost:1099/WeatherService" /> 
+        <property name="serviceInterface" value="com.xuyuan.spring3.recipes.ws.rmi.WeatherService" /> 
+    </bean> 
+    -->
+    
+    <!-- 17-6 Spring Hessian -->
+    <bean id="weatherService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean"> 
+    	<property name="serviceUrl" value="http://localhost:8888/start_j2ee/services/WeatherService" /> 
+    	<property name="serviceInterface" value="com.xuyuan.spring3.recipes.ws.WeatherService" /> 
+	</bean>
+	
+	<!-- Exposing an HTTP Invoker Service -->
+	<bean id="weatherService2" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean"> 
+    	<property name="serviceUrl" value="http://localhost:8888/start_j2ee/services/WeatherService2" /> 
+    	<property name="serviceInterface" value="com.xuyuan.spring3.recipes.ws.WeatherService" />
+	</bean>
+	
+	<!-- 17-8 Exposing a Web Service Using CXF -->
+	<bean id="weatherService3" class="com.xuyuan.spring3.recipes.ws.cxf.WeatherService" 
+		factory-bean="clientFactory" factory-method="create"/>  
+    <bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">  
+      	<property name="serviceClass" value="com.xuyuan.spring3.recipes.ws.cxf.WeatherService"/>
+      	<property name="address" value="http://localhost:8888/start_j2ee/cxf/WeatherService3"/>  
+    </bean>
+</beans>

@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<aop:aspectj-autoproxy />
+
+	<!-- 3-1. Enabling AspectJ Annotation Support in Spring -->
+    <bean id="arithmeticCalculator" class="com.xuyuan.spring3.recipes.aopaspectj.t1.ArithmeticCalculatorImpl" />
+    <bean id="unitCalculator" class="com.xuyuan.spring3.recipes.aopaspectj.t1.UnitCalculatorImpl" />
+    
+    <!-- 3-2. Declaring Aspects with AspectJ Annotations -->
+    <!--
+    <bean id="calculatorLoggingAspect" class="com.xuyuan.spring3.recipes.aopaspectj.t2.CalculatorLoggingAspect" />
+    -->
+    
+    <!-- 3-4. Specifying Aspect Precedence -->
+    <bean id="calculatorValidationAspect" class="com.xuyuan.spring3.recipes.aopaspectj.t4.CalculatorValidationAspect" />
+    
+    <!-- 3-5. Reusing Pointcut Definitions -->
+    <!-- 3-6. Writing AspectJ Pointcut Expressions -->
+    <bean id="calculatorLoggingAspect2" class="com.xuyuan.spring3.recipes.aopaspectj.t5.CalculatorLoggingAspect" />
+    
+    <!-- 3-7. Introducing Behaviors to Your Beans -->
+    <!-- 3-8. Introducing States to Your Beans -->
+    <bean id="calculatorIntroduction" class="com.xuyuan.spring3.recipes.aopaspectj.t7.CalculatorIntroduction" />
+    
+</beans>

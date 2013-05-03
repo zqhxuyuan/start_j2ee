@@ -1,0 +1,222 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+    
+    <!-- 2-1. Creating Beans by Invoking a Static Factory Method -->
+    <bean id="aaa" class="com.xuyuan.spring3.recipes.advanceioc.t1.ProductCreator" factory-method="createProduct"> 
+        <constructor-arg value="aaa" /> 
+    </bean> 
+    <bean id="cdrw" class="com.xuyuan.spring3.recipes.advanceioc.t1.ProductCreator" factory-method="createProduct"> 
+        <constructor-arg value="cdrw" /> 
+    </bean>
+    
+    <!-- 2-2. Creating Beans by Invoking an Instance Factory Method -->
+    <bean id="productCreator" class="com.xuyuan.spring3.recipes.advanceioc.t2.ProductCreator"> 
+        <property name="products"> 
+            <map> 
+                <entry key="aaa"> 
+                    <bean class="com.xuyuan.spring3.recipes.advanceioc.t1.Battery"> 
+                        <property name="name" value="AAA" /> 
+                        <property name="price" value="2.5" /> 
+                    </bean> 
+                </entry> 
+                <entry key="cdrw">
+                	<bean class="com.xuyuan.spring3.recipes.advanceioc.t1.Disc"> 
+                        <property name="name" value="CD-RW" /> 
+                        <property name="price" value="1.5" /> 
+                    </bean> 
+                </entry> 
+            </map> 
+        </property> 
+    </bean> 
+ 
+    <bean id="bbb" factory-bean="productCreator" factory-method="createProduct"> 
+        <constructor-arg value="aaa" /> 
+    </bean> 
+    <bean id="ccc" factory-bean="productCreator" factory-method="createProduct"> 
+        <constructor-arg value="cdrw" /> 
+    </bean>
+    
+    <!-- 2-3. Declaring Beans from Static Fields -->
+    <bean id="ddd" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean"> 
+        <property name="staticField"> 
+            <value>com.xuyuan.spring3.recipes.advanceioc.t1.Product.AAA</value> 
+        </property> 
+    </bean> 
+    <bean id="com.xuyuan.spring3.recipes.advanceioc.t1.Product.AAA" 
+    	class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean" />
+    <util:constant id="eee" static-field="com.xuyuan.spring3.recipes.advanceioc.t1.Product.AAA" /> 
+
+	<!-- 2-4. Declaring Beans from Object Properties -->    
+    <bean id="productRanking" class="com.xuyuan.spring3.recipes.advanceioc.t4.ProductRanking"> 
+        <property name="bestSeller"> 
+            <bean class="com.xuyuan.spring3.recipes.advanceioc.t1.Disc"> 
+                <property name="name" value="CD-RW" /> 
+                <property name="price" value="1.5" /> 
+            </bean> 
+        </property> 
+    </bean> 
+    <bean id="bestSeller" class="org.springframework.beans.factory.config.PropertyPathFactoryBean"> 
+        <property name="targetObject" ref="productRanking" /> 
+        <property name="propertyPath" value="bestSeller" /> 
+    </bean> 
+    
+    <bean id="productRanking.bestSeller" class="org.springframework.beans.factory.config.PropertyPathFactoryBean" />
+    <util:property-path id="bestSeller1" path="productRanking.bestSeller" />
+    
+    <!-- 2-6. Setting Bean Scopes -->
+    <bean id="a1" class="com.xuyuan.spring3.recipes.advanceioc.t1.Battery"> 
+        <property name="name" value="AAA" /> 
+        <property name="price" value="2.5" /> 
+    </bean> 
+    <bean id="a2" class="com.xuyuan.spring3.recipes.advanceioc.t1.Disc"> 
+        <property name="name" value="CD-RW" /> 
+        <property name="price" value="1.5" /> 
+    </bean> 
+    <bean id="a3" class="com.xuyuan.spring3.recipes.advanceioc.t1.Disc"> 
+        <property name="name" value="DVD-RW" /> 
+        <property name="price" value="3.0" /> 
+    </bean> 
+    <bean id="shoppingCart" class="com.xuyuan.spring3.recipes.advanceioc.t6.ShoppingCart" scope="singleton"/>
+    
+    <!-- 2-7. Customizing Bean Initialization and Destruction -->
+    <!-- NullPointerException -->
+    <bean id="cashier1" class="com.xuyuan.spring3.recipes.advanceioc.t7.Cashier"> 
+        <property name="name" value="cashier1" /> 
+        <property name="path" value="c:/cashier" /> 
+    </bean> 
+    <!-- 1.initial by constructor invoke -->
+    <!--
+    <bean id="cashier2" class="com.xuyuan.spring3.recipes.advanceioc.t7.Cashier"> 
+        <constructor-arg index="0" value="cashier1" /> 
+        <constructor-arg index="1" value="c:/cashier" /> 
+    </bean>
+    --> 
+    <!-- 2.implements InitializingBean, DisposableBean -->
+    <!-- 3.bean config:init-method, destroy-method -->
+    <bean id="cashier3" class="com.xuyuan.spring3.recipes.advanceioc.t7.Cashier" init-method="openFile" destroy-method="closeFile"> 
+        <property name="name" value="cashier1" /> 
+        <property name="path" value="c:/cashier" /> 
+    </bean> 
+    <!-- 4.annotation: @PostConstruct,@PreDestroy -->
+    <!--
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+    <context:annotation-config />
+    -->
+    
+    <!-- 2-9. Making Beans Aware of the Container -->
+    <bean id="cashier4" class="com.xuyuan.spring3.recipes.advanceioc.t9.Cashier" init-method="openFile" destroy-method="closeFile"> 
+        <property name="path" value="c:/cashier" /> 
+    </bean> 
+    
+    <!-- 2-10. Loading External Resources -->
+    <bean id="bannerLoader" class="com.xuyuan.spring3.recipes.advanceioc.t10.BannerLoader" init-method="showBanner" />
+    <bean id="bannerLoader1" class="com.xuyuan.spring3.recipes.advanceioc.t10.BannerLoader1" init-method="showBanner"> 
+    	<property name="banner"> 
+        	<value>classpath:spring/2/banner.txt</value> 
+    	</property> 
+	</bean> 
+	
+	<!-- 2-11. Creating Bean Post Processors -->
+	<bean class="com.xuyuan.spring3.recipes.advanceioc.t11.PathCheckingBeanPostProcessor" />
+	<bean id="cashier5" class="com.xuyuan.spring3.recipes.advanceioc.t11.Cashier" init-method="openFile" destroy-method="closeFile"> 
+        <property name="path" value="c:/cashier2" /> 
+    </bean>
+    
+    <context:annotation-config />
+	<bean id="cashier6" class="com.xuyuan.spring3.recipes.advanceioc.t11.Cashier"> 
+        <property name="path" value="c:/cashier3" /> 
+    </bean> 
+    
+    <!-- 2-12. Externalizing Bean Configurations -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+        <property name="location"> 
+            <value>spring/config.properties</value> 
+        </property> 
+    </bean> 
+    <context:property-placeholder location="spring/config.properties" />
+    <bean id="cashier7" class="com.xuyuan.spring3.recipes.advanceioc.t11.Cashier"> 
+        <property name="path" value="${cashier.path}" /> 
+    </bean>
+    
+    <!-- 2-14. Communicating with Application Events -->
+    <bean class="com.xuyuan.spring3.recipes.advanceioc.t14.CheckoutListener" />
+    <bean id="cashier8" class="com.xuyuan.spring3.recipes.advanceioc.t14.Cashier"> 
+        <property name="name" value="cashier8" /> 
+        <property name="path" value="c:/cashier3" /> 
+    </bean> 
+    
+    <!-- 2-15. Registering Property Editors in Spring -->
+    <bean id="dateFormat" class="java.text.SimpleDateFormat"> 
+        <constructor-arg value="yyyy-MM-dd" /> 
+    </bean> 
+    <bean id="productRanking2" class="com.xuyuan.spring3.recipes.advanceioc.t15.ProductRanking"> 
+        <property name="bestSeller"> 
+            <bean class="com.xuyuan.spring3.recipes.advanceioc.t1.Disc"> 
+                <property name="name" value="CD-RW" /> 
+                <property name="price" value="1.5" /> 
+            </bean> 
+        </property> 
+        <property name="fromDate"> 
+            <bean factory-bean="dateFormat" factory-method="parse"> 
+                <constructor-arg value="2007-09-01" /> 
+            </bean> 
+        </property> 
+        <property name="toDate"> 
+            <bean factory-bean="dateFormat" factory-method="parse"> 
+                <constructor-arg value="2007-09-30" /> 
+            </bean> 
+        </property> 
+    </bean>
+    
+    <bean id="dateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor"> 
+        <constructor-arg> 
+            <bean class="java.text.SimpleDateFormat"> 
+                <constructor-arg value="yyyy-MM-dd" /> 
+            </bean> 
+        </constructor-arg> 
+        <constructor-arg value="true" /> 
+    </bean>
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer"> 
+        <property name="customEditors"> 
+            <map> 
+                <entry key="java.util.Date"> 
+                    <ref local="dateEditor" /> 
+                </entry> 
+            </map> 
+        </property> 
+    </bean> 
+    <bean id="productRanking3" class="com.xuyuan.spring3.recipes.advanceioc.t15.ProductRanking"> 
+        <property name="bestSeller"> 
+            <bean class="com.xuyuan.spring3.recipes.advanceioc.t1.Disc"> 
+                <property name="name" value="CD-RW" /> 
+                <property name="price" value="1.5" /> 
+            </bean> 
+        </property> 
+        <property name="fromDate" value="2007-09-01" /> 
+        <property name="toDate" value="2007-09-30" /> 
+    </bean>
+    
+    <!-- 2-16. Creating Custom Property Editors -->
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer"> 
+        <property name="customEditors"> 
+            <map> 
+                <entry key="com.xuyuan.spring3.recipes.advanceioc.t1.Product"> 
+                    <bean class="com.xuyuan.spring3.recipes.advanceioc.t16.ProductEditor" /> 
+                </entry> 
+            </map> 
+        </property> 
+    </bean> 
+    <bean id="productRanking4" class="com.xuyuan.spring3.recipes.advanceioc.t4.ProductRanking"> 
+        <property name="bestSeller"> 
+            <value>com.xuyuan.spring3.recipes.advanceioc.t1.Disc,CD-RW,1.55</value> 
+        </property> 
+    </bean>
+</beans>

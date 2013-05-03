@@ -28,10 +28,24 @@ public class PersonAction extends ActionSupport {
 
 	//---------------
 	//PersonService personService = new PersonService();
+	/**
+	 * @uml.property  name="personService"
+	 * @uml.associationEnd  
+	 */
 	private PersonService personService;
 
+	/**
+	 * @uml.property  name="personList"
+	 */
 	List<Person> personList = PersonService.getPersons();
+	/**
+	 * @uml.property  name="person"
+	 * @uml.associationEnd  
+	 */
 	Person person ;
+	/**
+	 * @uml.property  name="id"
+	 */
 	int id ;
 
 	//---------------
@@ -66,9 +80,17 @@ public class PersonAction extends ActionSupport {
 	}
 
 	//---------------
+	/**
+	 * @return
+	 * @uml.property  name="person"
+	 */
 	public Person getPerson() {
 		return person;
 	}
+	/**
+	 * @param person
+	 * @uml.property  name="person"
+	 */
 	public void setPerson(Person person) {
 		this.person = person;
 	}
@@ -80,17 +102,33 @@ public class PersonAction extends ActionSupport {
 		this.personList = personList;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="id"
+	 */
 	public int getId() {
 		return id;
 	}
+	/**
+	 * @param id
+	 * @uml.property  name="id"
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
 	//---------------
+	/**
+	 * @return
+	 * @uml.property  name="personService"
+	 */
 	public PersonService getPersonService() {
 		return personService;
 	}
+	/**
+	 * @param personService
+	 * @uml.property  name="personService"
+	 */
 	public void setPersonService(PersonService personService) {
 		this.personService = personService;
 	}

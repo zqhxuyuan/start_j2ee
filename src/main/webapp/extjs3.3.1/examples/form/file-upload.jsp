@@ -1,1 +1,1 @@
-<%@ page language="java" contentType="text/html; charset=UTF8" %><%	out.print("{success:true, file:'test.txt'}");%>
+<%@ page language="java" contentType="text/html; charset=UTF8" %><%		// 模拟耗时操作或者文件上传的过程		try {			Thread.sleep(10000);		} catch (InterruptedException e) {			e.printStackTrace();		}	out.print("{success:true, file:'test.txt'}");%>

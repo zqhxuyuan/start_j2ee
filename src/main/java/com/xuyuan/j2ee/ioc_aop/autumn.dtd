@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="GBK"?>
+<!ELEMENT beans (bean|aop-config)*>
+<!ELEMENT bean (property*|constructor-arg*)>
+<!ELEMENT aop-config (aspect*)>
+<!ELEMENT aspect (pointcut,before?,around?,after?)>
+<!ELEMENT property (bean|list|set|map|props)>
+<!ELEMENT list (ref*)>
+<!ELEMENT set (ref|bean)*>
+<!ELEMENT map (entry*)>
+<!ELEMENT props (prop*)>
+<!ELEMENT prop (#PCDATA)>
+
+<!ATTLIST bean id ID #IMPLIED>
+<!ATTLIST bean class CDATA #REQUIRED>
+<!ATTLIST bean value CDATA #IMPLIED>
+<!ATTLIST property name CDATA #REQUIRED>
+<!ATTLIST property value CDATA #IMPLIED>
+<!ATTLIST property ref IDREF #IMPLIED>
+<!ATTLIST constructor-arg type CDATA #IMPLIED>
+<!ATTLIST constructor-arg value CDATA #IMPLIED>
+<!ATTLIST constructor-arg ref IDREF #IMPLIED>
+<!ATTLIST ref bean IDREF #REQUIRED>
+<!ATTLIST entry key CDATA #REQUIRED>
+<!ATTLIST entry value-ref IDREF #REQUIRED>
+<!ATTLIST prop key CDATA #REQUIRED>
+<!ATTLIST aspect ref IDREF #REQUIRED>
+<!ATTLIST pointcut expression CDATA #REQUIRED>
+<!ATTLIST before method CDATA #REQUIRED>
+<!ATTLIST around method CDATA #REQUIRED>
+<!ATTLIST after method CDATA #REQUIRED>

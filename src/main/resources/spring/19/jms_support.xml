@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+ 
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"> 
+        <property name="brokerURL" value="tcp://localhost:61616" /> 
+    </bean> 
+ 
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    	<property name="defaultDestinationName" value="mail.queue" /> 
+        <property name="connectionFactory" ref="connectionFactory" /> 
+        <property name="receiveTimeout" value="10000" />
+    </bean> 
+  	
+    <bean id="frontDesk" class="com.xuyuan.j2ee.jms.post.support.FrontDeskImpl"> 
+        <property name="jmsTemplate" ref="jmsTemplate" /> 
+    </bean>
+    <bean id="backOffice" class="com.xuyuan.j2ee.jms.post.support.BackOfficeImpl"> 
+        <property name="jmsTemplate" ref="jmsTemplate" /> 
+    </bean>  
+</beans>

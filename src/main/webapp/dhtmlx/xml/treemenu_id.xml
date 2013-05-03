@@ -1,0 +1,19 @@
+<!-- 必须为每个节点item都定义id,否则弹出错误对话框没有存在的父节点 -->
+<tree id='0'> 
+	<item text='Java' id='java'> 
+		<item text='Thinking in java' id='tij'> 
+			<userdata name='thisurl'>java_tij.action</userdata> 
+		</item> 
+		<item text='Head first design pattern' id='hfdp'> 
+			<userdata name='thisurl'>java_hfdp.action</userdata> 
+		</item> 
+	</item> 
+	<item text='Fiction' id='fiction'> 
+		<item text='Harry Porter' id='hp'> 
+			<userdata name='thisurl'>fiction_hp.action</userdata> 
+		</item> 
+		<item text='Oliver Twist' id='ot'> 
+			<userdata name='thisurl'>fiction_ot.action</userdata> 
+		</item> 
+	</item>
+</tree>

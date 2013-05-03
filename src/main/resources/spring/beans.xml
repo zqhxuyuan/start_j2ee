@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/jdbc
+            http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- spring tutorial by 开涛 -->
+	<bean id="spring_ioc_hello" name="spring_ioc_helloname" class="com.xuyuan.spring3.core.ioc.bean.Hello">
+		<constructor-arg index="0" value="Hello Spring!"/>
+		<property name="msg" value="Hello Again!"/>
+		
+		<property name="values">
+        	<list>
+            	<value>1</value>
+           	 	<value>2</value>
+            	<value>3</value>
+       	 	</list>
+   		</property>
+		<property name="map">
+			<map key-type="java.lang.String" value-type="java.lang.String">
+				<entry key="1" value="test1"/>
+				<entry key="2" value="test2"/>
+			</map>
+   		</property>
+   		<property name="prop">
+   			<props>
+   				<prop key="3">test3</prop>
+   				<prop key="4">test4</prop>
+   			</props>
+		</property>
+	</bean>
+	
+	<!-- 自定义作用域 -->
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+           <map>
+           		<entry>
+					<key><value>thread</value></key>
+   					<bean class="com.xuyuan.spring3.core.ioc.di.ThreadScope"/>
+           		</entry>
+           </map>     
+        </property>
+    </bean>
+	<bean id="spring_scope_thread" class="com.xuyuan.spring3.core.ioc.bean.Hello" scope="thread"/>
+	
+	<!-- spring recipes 2E -->
+    <bean id="christmas" class="com.xuyuan.spring3.recipes.springintro.Holiday">
+        <property name="month" value="12" />
+        <property name="day" value="25" />
+        <property name="greeting" value="Merry Christmas!" />
+    </bean>
+
+    <bean id="newYear" class="com.xuyuan.spring3.recipes.springintro.Holiday">
+        <property name="month" value="1" />
+        <property name="day" value="1" />
+        <property name="greeting" value="Happy New Year!" />
+    </bean>
+
+    <bean id="helloWorld" class="com.xuyuan.spring3.recipes.springintro.HelloWorld">
+        <property name="message" value="How are you?" />
+        <property name="holidays">
+            <list>
+                <ref local="christmas" />
+                <ref local="newYear" />
+            </list>
+        </property>
+    </bean>
+</beans>

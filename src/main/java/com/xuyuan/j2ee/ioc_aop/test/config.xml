@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans SYSTEM "d:\\autumn.dtd">
+<beans>
+	<bean id="str1" class="java.lang.String" value="String: str1"/>
+	<bean id="str2" class="java.lang.String" value="String: str2"/>
+
+	<bean id="bean" class="com.xuyuan.j2ee.ioc_aop.test.TestIOCBean" lazy-init="true">
+		<property name="a" value="1000" />
+		<property name="aa" value="999" />
+		<property name="b" value="I'm lazy-init bean" />
+		<property name="innerBean">
+			<bean class="com.xuyuan.j2ee.ioc_aop.test.TestIOCBean">
+				<property name="a" value="1000" />
+				<property name="aa" value="999" />
+				<property name="b" value="I'm inner bean" />
+				<property name="outterBean" ref="outterBean" />
+				<property name="collection">
+					<set>
+						<ref bean="str1" />
+						<bean class="java.lang.String" value="str3" />
+					</set>
+				</property>
+			</bean>
+		</property>
+		<property name="collection">
+			<list>
+				<ref bean="str1" />
+				<ref bean="str2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="outterBean" class="com.xuyuan.j2ee.ioc_aop.test.TestIOCBean">
+		<property name="a" value="1000" />
+		<property name="aa" value="999" />
+		<property name="b" value="I'm outter bean" />
+		<property name="map">
+			<map>
+				<entry key="s1" value-ref="str1" />
+				<entry key="s2" value-ref="str2" />
+			</map>
+		</property>
+		<property name="props">
+			<props>
+				<prop key="s3">im' props' value: s3</prop>
+				<prop key="s4">im' props' value: s4</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="constructorInit" class="com.xuyuan.j2ee.ioc_aop.test.TestIOCBean">
+		<constructor-arg value="555" type="int" />
+		<constructor-arg value="String" type="java.lang.String" />
+		<constructor-arg ref="bean" />
+	</bean>
+
+	<bean id="shoutBean" class="com.xuyuan.j2ee.ioc_aop.test.TestAOPBean" />
+
+	<bean id="adviceBean" class="com.xuyuan.j2ee.ioc_aop.Advice" />
+
+	<!-- AOP配置 -->
+	<aop-config>
+		<!-- 定义切面 -->
+		<aspect ref="adviceBean">
+			<!-- 定义切点 -->
+			<pointcut expression=".*.shout()" />
+			<!-- 定义各类增强 -->
+			<before method="Before" />
+			<around method="Around" />
+			<after method="After" />
+		</aspect>
+	</aop-config>
+</beans>

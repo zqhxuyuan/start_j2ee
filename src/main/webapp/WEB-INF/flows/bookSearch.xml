@@ -1,0 +1,68 @@
+<flow xmlns="http://www.springframework.org/schema/webflow" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"> 
+ 
+ 	<!-- 1.book search flow:
+ 	01. show a form so that a user can enter the book criteria. 
+ 	02. display the search results in the list page,with links for showing book details. 
+ 	03. showing the book’s details when click the link. -->
+ 	<!-- Defining View States -->
+ 	<!--
+    <view-state id="bookCriteria"> 
+        <on-render> 
+            <evaluate expression="bookCriteriaAction.setupForm" /> 
+        </on-render> 
+        <transition on="search" to="bookList"> 
+            <evaluate expression="bookCriteriaAction.bindAndValidate" /> 
+            <evaluate expression="bookService.search(bookCriteria)" result="flowScope.books" /> 
+        </transition>
+    </view-state> 
+    -->
+    
+    <!-- 2.reused for other states that require book searching -->
+ 	<!-- Defining Action States -->
+    <view-state id="bookCriteria"> 
+        <on-render> 
+            <evaluate expression="bookCriteriaAction.setupForm" /> 
+        </on-render> 
+        <transition on="search" to="searchBook"> 
+            <evaluate expression="bookCriteriaAction.bindAndValidate" /> 
+        </transition> 
+    </view-state> 
+    <!--
+    <action-state id="searchBook"> 
+        <evaluate expression="bookService.search(bookCriteria)" result="flowScope.books" /> 
+        <transition on="success" to="bookList" /> 
+    </action-state>
+    --> 
+    
+    <!-- 3.more than one search result, display them in the list page; otherwise, 
+    show its  details directly in the details page without going through the list page. -->
+    <!-- Defining Decision States -->
+    <action-state id="searchBook"> 
+        <evaluate expression="bookService.search(bookCriteria)" result="flowScope.books" /> 
+        <transition on="success" to="checkResultSize" /> 
+    </action-state> 
+    <decision-state id="checkResultSize"> 
+        <if test="books.size() == 1" then="extractResult" else="bookList" /> 
+    </decision-state> 
+    <action-state id="extractResult"> 
+        <set name="flowScope.book" value="books.get(0)" /> 
+        <transition on="success" to="bookDetails" /> 
+    </action-state>
+    
+    
+    <view-state id="bookList"> 
+   	 	<transition on="select" to="bookDetails"> 
+        	<evaluate expression="bookService.findByIsbn(requestParameters.isbn)" result="flowScope.book" /> 
+    	</transition> 
+    	<transition on="newSearch" to="newSearch" />
+	</view-state>
+	
+	<view-state id="bookDetails">
+		<transition on="newSearch" to="newSearch" />
+	</view-state>
+	
+	<end-state id="newSearch" />
+</flow>

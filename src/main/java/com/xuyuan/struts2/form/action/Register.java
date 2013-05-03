@@ -26,6 +26,10 @@ import com.xuyuan.struts2.form.model.Person;
 public class Register extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="personBean"
+	 * @uml.associationEnd  
+	 */
 	private Person personBean;
 
 	@Override
@@ -46,9 +50,17 @@ public class Register extends ActionSupport {
 		}
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="personBean"
+	 */
 	public Person getPersonBean() {
 		return personBean;
 	}
+	/**
+	 * @param person
+	 * @uml.property  name="personBean"
+	 */
 	public void setPersonBean(Person person) {
 		personBean = person;
 	}

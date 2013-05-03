@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
@@ -20,8 +21,16 @@ import com.xuyuan.ssj.model.Person;
 public class EmpDaoJpa implements EmpDao {
 	private static final Logger logger = Logger.getLogger(EmpDaoJpa.class.getName() );
 	
+	/**
+	 * @uml.property  name="entityManager"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="com.xuyuan.ssj.model.Person"
+	 */
 	private EntityManager entityManager;
 
+	/**
+	 * @param entityManager
+	 * @uml.property  name="entityManager"
+	 */
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
@@ -29,18 +38,21 @@ public class EmpDaoJpa implements EmpDao {
 
 	public Person findbyEmplid(Long emplid) throws DataAccessException {
 		Person person = null ;
-		TypedQuery<Person> query =  entityManager.createNamedQuery("person.findByEmplid", Person.class);
+		//TypedQuery<Person> query =  entityManager.createNamedQuery("person.findByEmplid", Person.class);
+		Query query =  entityManager.createNativeQuery("person.findByEmplid", Person.class);
 		query.setParameter("emplid", emplid);
 		try {
-			person = query.getSingleResult() ;
+			//person = query.getSingleResult() ;
+			person = (Person)query.getSingleResult();
 		} catch (javax.persistence.NoResultException ex) {
 			logger.warn("No Person was found with an emplid of " + emplid);
 		}
 		return person;
 	}
 
-	public List<Person> findAllEmployees() {
-		TypedQuery<Person> query = entityManager.createQuery("from " + Person.class.getName(), Person.class);
+	public List<Person> findAllEmployees() { 
+		//TypedQuery<Person> query = entityManager.createQuery("from " + Person.class.getName(), Person.class);
+		Query query = entityManager.createNativeQuery("from " + Person.class.getName(), Person.class);
 		List<Person> employees = query.getResultList();
 		return employees;
 	}

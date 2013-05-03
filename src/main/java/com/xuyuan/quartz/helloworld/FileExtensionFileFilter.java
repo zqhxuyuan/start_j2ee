@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileFilter;
 
 public class FileExtensionFileFilter implements FileFilter {
+	/**
+	 * @uml.property  name="extension"
+	 */
 	private String extension;// 文件后缀
 
 	public FileExtensionFileFilter(String extension) {

@@ -13,13 +13,13 @@
 				<tr>
 					<td width="10%" align="center">登录名：</td>
 					<td width="20%" align="left">
-						<s:textfield name="username" label="登录名" />
+						<s:textfield name="username" label="登录名" value="Lily"/>
 					</td>
 				</tr>
 				<tr>
 					<td align="center">密&nbsp;&nbsp;码：</td>
 					<td align="left">
-						<s:password name="password" size="22" label="密码" />
+						<s:password name="password" size="22" label="密码"/> (root)
 					</td>
 				</tr>
 				<tr>

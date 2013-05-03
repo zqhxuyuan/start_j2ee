@@ -19,8 +19,22 @@ import com.xuyuan.ssh.entity.base.User;
 @Service
 public class UserManager {
 
+	/**
+	 * @uml.property  name="userDao"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private UserDao userDao;
+	
+	public User getUser(Serializable id){
+		//userDao.get(User.class, id);
+		return userDao.get(id);
+	}
+
+	public User getUser(String username,String password){
+		List<User> list = userDao.getUser(username,password);
+		return list.isEmpty() ? null : list.get(0);
+	}
 	
 	public List queryResult(HttpServletRequest request){
 		List<Criterion> criterions = new ArrayList<Criterion>();
@@ -33,13 +47,4 @@ public class UserManager {
 		return userDao.query(criterions.toArray(new Criterion[criterions.size()]));
 	}
 	
-	public User getUser(Serializable id){
-		//userDao.get(User.class, id);
-		return userDao.get(id);
-	}
-
-	public User getUser(final String username,final String password){
-		List<User> list = userDao.getUser(username,password);
-		return list.isEmpty() ? null : list.get(0);
-	}
 }

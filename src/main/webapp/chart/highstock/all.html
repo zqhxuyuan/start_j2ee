@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>HighChart</title>
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/Charts/highstock/highstock.js"></script>
+<script type="text/javascript" src="usdeur.js"></script>
+<script type="text/javascript">
+$(function() {
+	var chart = new Highcharts.StockChart({
+	    
+	    chart: {
+	        renderTo: 'container',
+        	backgroundColor: '#FFFFFF',
+        	shadow: true
+	    },
+	    
+	    rangeSelector: {
+	    	selected: 1
+	    },
+	    
+	    series: [{
+	        name: 'USD to EUR',
+	        data: usdeur
+	    }]
+	});
+});
+
+</script>
+</head>
+<body>
+	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+</body>
+</html>

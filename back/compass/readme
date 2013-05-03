@@ -1,0 +1,8 @@
+
+compass2.2.0只支持lucene2.4，不支持lucene3
+启动的时候会报错：
+
+Cannot resolve reference to bean 'compass' while setting bean property 'compass'; 
+nested exception is org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'compass' defined in class path resource [applicationContext_compass.xml]: 
+Invocation of init method failed; nested exception is java.lang.NoSuchFieldError: STOP_WORDS

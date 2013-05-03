@@ -25,6 +25,10 @@ import com.xuyuan.ssh.entity.base.User;
 @Aspect
 public class LogAspect {
 
+	/**
+	 * @uml.property  name="hibernateDao"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	@Qualifier("hibernateDao")
 	private HibernateDao hibernateDao;
@@ -87,7 +91,7 @@ public class LogAspect {
 			log.setModel("Login");
 			//log.setSuccess(false);
 		}
-		hibernateDao.save(log);
+		hibernateDao.saveOrUpdate(log);
 	}
 	
 }

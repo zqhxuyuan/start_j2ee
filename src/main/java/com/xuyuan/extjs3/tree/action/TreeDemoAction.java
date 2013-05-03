@@ -1,5 +1,7 @@
 package com.xuyuan.extjs3.tree.action;
 
+import java.util.List;
+
 import net.sf.json.JSONArray;
 
 import com.xuyuan.extjs3.tree.bean.Tree;
@@ -7,44 +9,73 @@ import com.xuyuan.extjs3.tree.service.TreeService;
 
 /**
  * Struts2、Spring、Hibernate整合ExtJS
+ * http://www.cnblogs.com/hoojo/archive/2011/01/07/1929577.html
  *
- * *****Ext Tree DEMO:*****
- * http://localhost:8080/start_j2ee/treedemo.action
-	[
-		{"children":[
-			{"children":[],"id":2,"leaf":true,"nodeid":2,"nodelevel":0,"pid":1,"text":"湖里"},
-			{"children":[],"id":3,"leaf":true,"nodeid":3,"nodelevel":0,"pid":1,"text":"思明"}
-		],"id":1,"leaf":false,"nodeid":1,"nodelevel":0,"pid":0,"text":"厦门"},
-		{"children":[
-			{"children":[],"id":5,"leaf":true,"nodeid":5,"nodelevel":0,"pid":4,"text":"晋安"}
-		],"id":4,"leaf":false,"nodeid":4,"nodelevel":0,"pid":0,"text":"福州"}
-	]
-
-* @author http://www.cnblogs.com/hoojo/archive/2011/01/07/1929577.html
+ * http://localhost:8888/start_j2ee/treedemo.action
+ * @author Administrator
+ *
  */
 public class TreeDemoAction{
 	private static final long serialVersionUID = -3795544890686836966L;
 
+	/**
+	 * @uml.property  name="jsonString"
+	 */
 	private String jsonString;
+	/**
+	 * @uml.property  name="tree"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Tree tree = new Tree();
+	/**
+	 * @uml.property  name="treeService"
+	 * @uml.associationEnd  
+	 */
 	private TreeService<Tree> treeService;
 
 	public String execute() throws Exception {
 		treeService.getTreeByParentId2Recursion(tree);
 		jsonString = JSONArray.fromObject(tree.getChildren()).toString();
+
+		this.test(tree.getChildren());
 		return "success";
 	}
 
+	public void test(List<Tree> childs){
+		if(childs.size() > 0){
+			for(Tree c : childs){
+				System.out.println(c.getText() + ":" +c.getChildren().size());
+				this.test(c.getChildren());
+			}
+		}
+	}
+
+	/**
+	 * @return
+	 * @uml.property  name="jsonString"
+	 */
 	public String getJsonString() {
 		return jsonString;
 	}
+	/**
+	 * @param jsonString
+	 * @uml.property  name="jsonString"
+	 */
 	public void setJsonString(String jsonString) {
 		this.jsonString = jsonString;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="tree"
+	 */
 	public Tree getTree() {
 		return tree;
 	}
+	/**
+	 * @param tree
+	 * @uml.property  name="tree"
+	 */
 	public void setTree(Tree tree) {
 		this.tree = tree;
 	}

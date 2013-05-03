@@ -13,5 +13,9 @@
     <p>userName: <s:property value="userName" /></p>
 
     <p>I've said hello <s:property value="helloCount" /> times!</p>
+    
+    <s:iterator value="msgs">
+    	<b><s:property value="message" /> <br/></b>
+    </s:iterator>
 </body>
 </html>
