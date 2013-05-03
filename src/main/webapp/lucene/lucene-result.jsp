@@ -7,8 +7,8 @@
 </head>
 <body>
   	<div>共搜到 <span><font color='red'> <s:property value="totalHits"/> </font></span> 条结果</div><br/><br/>
-    <table width="90%" height="70%" border="1" cellpadding="0" cellspacing="0" align="center">
-    	<tr>
+    <table width="100%" height="80%" border="1" cellpadding="0" cellspacing="0" align="center">
+    	<tr height="30px">
     		<td align="center" width="20%">标题</td>
     		<td align="center" width="60%">文章内容</td>
     		<td align="center" width="20%">所属标签</td>
